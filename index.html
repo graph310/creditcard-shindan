@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>クレカ診断 | あなたにぴったりの1枚が見つかる</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue: #1a4fa0;
+      --blue-light: #f0f4fb;
+      --blue-mid: #dde6f5;
+      --orange: #f5a623;
+      --orange-text: #7a4a00;
+      --text-dark: #1a2a4a;
+      --text-mid: #2a4a7a;
+      --text-muted: #6a7fa0;
+      --white: #ffffff;
+      --radius: 12px;
+      --radius-pill: 30px;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--blue-light);
+      color: var(--text-dark);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      background: var(--blue);
+      color: var(--white);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .header-logo svg { width: 22px; height: 22px; }
+    .header-badge {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    /* ===== SCREENS ===== */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* ===== TOP / HERO ===== */
+    .hero {
+      background: var(--blue) url('img/fv_bg.png') center center / cover no-repeat;
+      color: var(--white);
+      padding: 36px 20px 44px;
+      text-align: center;
+      position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(20, 55, 120, 0.55);
+    }
+    .hero > * { position: relative; z-index: 1; }
+
+    .hero-tag {
+      background: var(--orange);
+      color: var(--orange-text);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 14px;
+    }
+    .hero h1 {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.55;
+      margin-bottom: 10px;
+    }
+    .hero h1 span { color: var(--orange); }
+    .hero p {
+      font-size: 14px;
+      opacity: 0.9;
+      line-height: 1.7;
+      margin-bottom: 22px;
+    }
+    .hero-badges {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .hero-badge-item {
+      font-size: 12px;
+      background: rgba(255,255,255,0.18);
+      padding: 6px 14px;
+      border-radius: 20px;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn-orange {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--orange-text);
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 15px 32px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Noto Sans JP', sans-serif;
+      text-decoration: none;
+      text-align: center;
+      transition: opacity 0.2s;
+      width: 100%;
+      max-width: 320px;
+    }
+    .btn-orange:hover { opacity: 0.88; }
+
+    .btn-blue {
+      display: block;
+      width: 100%;
+      background: var(--blue);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 15px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Noto Sans JP', sans-serif;
+      text-align: center;
+      transition: opacity 0.2s;
+    }
+    .btn-blue:hover { opacity: 0.88; }
+    .btn-blue:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    .btn-outline {
+      display: block;
+      width: 100%;
+      background: var(--white);
+      color: var(--blue);
+      border: 1.5px solid var(--blue);
+      border-radius: var(--radius-pill);
+      padding: 13px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Noto Sans JP', sans-serif;
+      text-align: center;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .btn-outline:hover { opacity: 0.8; }
+
+    .btn-ghost {
+      display: block;
+      width: 100%;
+      background: var(--white);
+      color: var(--text-muted);
+      border: 1px solid var(--blue-mid);
+      border-radius: var(--radius-pill);
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Noto Sans JP', sans-serif;
+      text-align: center;
+      transition: opacity 0.2s;
+    }
+
+    /* ===== WORRY SECTION ===== */
+    .worry-section {
+      padding: 24px 16px;
+      background: var(--blue-light);
+    }
+    .worry-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(26,79,160,0.08);
+    }
+    .worry-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 14px;
+      text-align: center;
+    }
+    .worry-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .worry-item {
+      background: #f8faff;
+      border-radius: 8px;
+      padding: 12px 10px;
+      font-size: 12px;
+      color: var(--text-mid);
+      text-align: center;
+      line-height: 1.5;
+    }
+    .worry-cta {
+      background: var(--blue);
+      border-radius: 10px;
+      color: var(--white);
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 13px;
+    }
+    .worry-cta span { color: var(--orange); }
+
+    /* ===== PROGRESS ===== */
+    .progress-wrap {
+      background: var(--white);
+      padding: 16px 20px 0;
+      border-bottom: 1px solid var(--blue-mid);
+    }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--blue);
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .progress-track {
+      background: var(--blue-mid);
+      border-radius: 10px;
+      height: 6px;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .progress-fill {
+      background: var(--orange);
+      height: 100%;
+      border-radius: 10px;
+      transition: width 0.4s ease;
+    }
+
+    /* ===== QUIZ ===== */
+    .quiz-area {
+      padding: 20px 16px 32px;
+    }
+
+    .question-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: 0 2px 12px rgba(26,79,160,0.08);
+      animation: fadeUp 0.3s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .q-badge {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--blue);
+      background: var(--blue-light);
+      padding: 3px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+    .q-text {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.55;
+      margin-bottom: 18px;
+    }
+
+    .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+
+    .option-btn {
+      background: var(--white);
+      border: 1.5px solid var(--blue-mid);
+      border-radius: 10px;
+      padding: 13px 14px;
+      text-align: left;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-dark);
+      font-family: 'Noto Sans JP', sans-serif;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .option-btn:active { transform: scale(0.98); }
+    .option-btn:hover  { border-color: var(--blue); background: var(--blue-light); }
+    .option-btn.selected {
+      border-color: var(--blue);
+      background: var(--blue);
+      color: var(--white);
+    }
+
+    .option-letter {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--blue-light);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.15s;
+    }
+    .option-btn.selected .option-letter {
+      background: rgba(255,255,255,0.25);
+      color: var(--white);
+    }
+
+    /* next btn — orange after selection */
+    .next-btn {
+      width: 100%;
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 15px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Noto Sans JP', sans-serif;
+      transition: background 0.2s, color 0.2s, opacity 0.2s;
+      background: var(--blue-mid);
+      color: var(--text-muted);
+    }
+    .next-btn.ready {
+      background: var(--orange);
+      color: var(--orange-text);
+    }
+    .next-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .next-btn.ready:hover { opacity: 0.88; }
+
+    /* ===== LOADING ===== */
+    .loading-area {
+      padding: 80px 20px;
+      text-align: center;
+    }
+    .spinner {
+      width: 44px; height: 44px;
+      border: 3px solid var(--blue-mid);
+      border-top-color: var(--blue);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 20px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { color: var(--blue); font-weight: 600; font-size: 15px; }
+    .loading-sub  { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+
+    /* ===== RESULT ===== */
+    .result-header {
+      background: var(--blue);
+      color: var(--white);
+      padding: 28px 20px;
+      text-align: center;
+    }
+    .result-header p   { font-size: 13px; opacity: 0.8; margin-bottom: 6px; }
+    .result-header h2  { font-size: 21px; font-weight: 700; line-height: 1.4; }
+    .result-header h2 span { color: var(--orange); }
+
+    .result-body { padding: 0 16px 32px; }
+
+    .result-main {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(26,79,160,0.12);
+      margin-top: 16px;
+      margin-bottom: 14px;
+    }
+    .result-main-header {
+      background: var(--orange);
+      padding: 10px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--orange-text);
+    }
+    .card-info { padding: 20px; }
+    .card-name { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .tag {
+      background: var(--blue-light);
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .reason-box {
+      background: var(--blue-light);
+      border-left: 3px solid var(--blue);
+      border-radius: 0 8px 8px 0;
+      padding: 12px 14px;
+      font-size: 13px;
+      color: var(--text-mid);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .spec-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .spec-item { background: #f8faff; border-radius: 8px; padding: 10px 12px; }
+    .spec-label { font-size: 11px; color: var(--text-muted); margin-bottom: 3px; }
+    .spec-value { font-size: 13px; font-weight: 700; }
+
+    /* ===== NEXUS ===== */
+    .nexus-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1.5px solid var(--blue-mid);
+      margin-bottom: 14px;
+    }
+    .nexus-header {
+      background: var(--blue-light);
+      padding: 10px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--blue);
+      border-bottom: 1px solid var(--blue-mid);
+    }
+    .nexus-body { padding: 16px; }
+    .nexus-name { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .nexus-desc { font-size: 13px; color: #4a5a7a; line-height: 1.7; margin-bottom: 14px; }
+
+    /* ===== FOOTER ===== */
+    .site-footer {
+      background: var(--text-dark);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      font-size: 11px;
+      padding: 16px;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+      <line x1="1" y1="10" x2="23" y2="10"></line>
+    </svg>
+    クレカ診断
+  </div>
+  <div class="header-badge">⏱ たった1分 ｜ 完全無料</div>
+</header>
+
+<!-- SCREEN: TOP -->
+<div id="screen-top" class="screen active">
+  <section class="hero">
+    <div class="hero-tag">✨ たった1分でわかる！</div>
+    <h1>あなたにぴったりの<br><span>クレジットカード</span>が<br>見つかる診断</h1>
+    <p>5つの質問に答えるだけ。<br>ライフスタイルに合った最適な1枚がわかります！</p>
+    <div class="hero-badges">
+      <div class="hero-badge-item">⏱ たった1分</div>
+      <div class="hero-badge-item">¥ 完全無料</div>
+      <div class="hero-badge-item">🔒 登録不要</div>
+    </div>
+    <button class="btn-orange" onclick="startQuiz()">無料で診断スタート ›</button>
+  </section>
+
+  <section class="worry-section">
+    <div class="worry-card">
+      <div class="worry-title">こんなお悩みありませんか？</div>
+      <div class="worry-grid">
+        <div class="worry-item">カードの種類が<br>多すぎて選べない</div>
+        <div class="worry-item">結局どれが<br>一番お得かわからない</div>
+        <div class="worry-item">自分に合うカードが<br>どれかわからない</div>
+        <div class="worry-item">作ってから<br>「失敗した」と思いたくない</div>
+      </div>
+      <div class="worry-cta">✅ この診断で、あなたに合う<span>1枚</span>がわかります！</div>
+    </div>
+  </section>
+
+  <div style="padding: 0 16px 32px; text-align:center;">
+    <button class="btn-orange" onclick="startQuiz()">無料で診断スタート ›</button>
+    <p style="font-size:11px;color:var(--text-muted);margin-top:10px">※診断は完全無料・登録不要です</p>
+  </div>
+</div>
+
+<!-- SCREEN: QUIZ -->
+<div id="screen-quiz" class="screen">
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span id="progress-text">Q1 / 5</span>
+      <span id="progress-pct">20%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width:20%"></div>
+    </div>
+  </div>
+  <div class="quiz-area" id="quiz-area"></div>
+</div>
+
+<!-- SCREEN: LOADING -->
+<div id="screen-loading" class="screen">
+  <div class="loading-area">
+    <div class="spinner"></div>
+    <div class="loading-text">あなたに最適なカードを診断中...</div>
+    <div class="loading-sub">少々お待ちください</div>
+  </div>
+</div>
+
+<!-- SCREEN: RESULT -->
+<div id="screen-result" class="screen">
+  <div class="result-header">
+    <p>診断完了！あなたにおすすめのカードは…</p>
+    <h2>✨ <span id="result-card-name"></span> ✨</h2>
+  </div>
+  <div class="result-body">
+    <div class="result-main">
+      <div class="result-main-header">⭐ メインおすすめカード</div>
+      <div class="card-info">
+        <div class="card-name" id="result-name"></div>
+        <div class="tags" id="result-tags"></div>
+        <div class="reason-box" id="result-reason"></div>
+        <div class="spec-grid" id="result-specs"></div>
+        <a id="result-apply-btn" href="#" class="btn-orange" target="_blank" rel="noopener">このカードに申し込む ›</a>
+      </div>
+    </div>
+
+    <div class="nexus-card">
+      <div class="nexus-header">🔒 審査に不安がある方はこちらもチェック</div>
+      <div class="nexus-body">
+        <div class="nexus-name">Nexus Card（デポジット型）</div>
+        <div class="nexus-desc">審査に不安がある方でも作りやすいデポジット型クレジットカード。保証金を預けるシステムなので、クレヒスに自信がない方の最初の1枚にも最適です。</div>
+        <a href="https://www.nexuscard.jp/" class="btn-outline" target="_blank" rel="noopener">Nexus Cardを詳しく見る ›</a>
+      </div>
+    </div>
+
+    <button class="btn-ghost" onclick="retryQuiz()">↩ もう一度診断する</button>
+  </div>
+  <footer class="site-footer">Copyright &copy; 2026 クレカ診断 All Rights Reserved</footer>
+</div>
+
+<script>
+const questions = [
+  { q: "クレジットカードに何を一番求めますか？", key: "priority", options: [
+    { label: "ポイントをとにかく貯めたい", value: "points" },
+    { label: "特定のお店でお得に使いたい", value: "store" },
+    { label: "旅行や外出で使える特典がほしい", value: "travel" },
+    { label: "まず1枚持っておきたい（シンプルでOK）", value: "first" }
+  ]},
+  { q: "よく行くお店はどこですか？", key: "shop", options: [
+    { label: "コンビニ（セブン・ファミマ）", value: "convenience" },
+    { label: "無印良品", value: "muji" },
+    { label: "ロフト", value: "loft" },
+    { label: "マルイ・モディ", value: "marui" },
+    { label: "特にこだわりなし", value: "none" }
+  ]},
+  { q: "ネット通販はよく使いますか？", key: "ec", options: [
+    { label: "Amazonをよく使う", value: "amazon" },
+    { label: "楽天市場をよく使う", value: "rakuten" },
+    { label: "じゃらん・ホットペッパーなどリクルート系", value: "recruit" },
+    { label: "あまり使わない", value: "none" }
+  ]},
+  { q: "旅行はどのくらい行きますか？", key: "travel", options: [
+    { label: "年1回以上、海外も視野に入れている", value: "overseas" },
+    { label: "国内に年数回", value: "domestic" },
+    { label: "ほとんど行かない", value: "none" }
+  ]},
+  { q: "ポイントの使い方のイメージは？", key: "point_use", options: [
+    { label: "現金感覚で何にでも使いたい", value: "flexible" },
+    { label: "よく行くお店で使いたい", value: "store" },
+    { label: "特にこだわらない", value: "any" }
+  ]}
+];
+
+const cards = {
+  epos:    { name: "エポスカード",       annual: "永年無料", rate: "0.5%（優待で最大10%以上）", point: "エポスポイント",      brand: "VISA",                    url: "https://www.epos.co.jp/",        tags: ["海外旅行保険付き", "全国10,000店舗優待", "マルイでお得"] },
+  loft:    { name: "ロフトカード",       annual: "永年無料", rate: "0.5%〜",                    point: "永久不滅ポイント",    brand: "VISA / Mastercard",       url: "https://www.saisoncard.co.jp/", tags: ["ロフトで特典", "文具・コスメ好きに◎", "セゾン系列優待"] },
+  muji:    { name: "MUJI Card",          annual: "永年無料", rate: "0.5%〜",                    point: "MUJIマイル",          brand: "VISA",                    url: "https://www.muji.com/jp/mujicard/", tags: ["無印良品でマイルが貯まる", "無印でお得", "シンプルライフ向け"] },
+  smbc:    { name: "三井住友カード（NL）", annual: "永年無料", rate: "0.5%（コンビニ最大7%）",   point: "Vポイント",           brand: "VISA / Mastercard",       url: "https://www.smbc-card.com/",    tags: ["セブン・ファミマで高還元", "ナンバーレスで安全", "ネット決済◎"] },
+  recruit: { name: "リクルートカード",   annual: "永年無料", rate: "1.2%（業界最高水準）",      point: "リクルートポイント",  brand: "VISA / Mastercard / JCB", url: "https://recruit-card.jp/",      tags: ["還元率1.2%", "Pontaポイントに交換可", "じゃらん・ホットペッパーでさらにお得"] }
+};
+
+let answers = {}, currentQ = 0;
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function startQuiz() {
+  currentQ = 0; answers = {};
+  showScreen('screen-quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  const total = questions.length;
+  const pct = Math.round(((currentQ + 1) / total) * 100);
+  document.getElementById('progress-text').textContent = `Q${currentQ + 1} / ${total}`;
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  const letters = ['A','B','C','D','E'];
+  const isLast = currentQ === total - 1;
+
+  let optHtml = '';
+  q.options.forEach((opt, i) => {
+    optHtml += `<button class="option-btn" id="opt-${i}" onclick="selectOption(${i},'${opt.value}')">
+      <span class="option-letter">${letters[i]}</span>
+      <span>${opt.label}</span>
+    </button>`;
+  });
+
+  document.getElementById('quiz-area').innerHTML = `
+    <div class="question-card">
+      <div class="q-badge">Q${currentQ + 1}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options">${optHtml}</div>
+      <button class="next-btn" id="next-btn" disabled onclick="nextQuestion()">
+        ${isLast ? '診断する ›' : '次の質問へ ›'}
+      </button>
+    </div>
+  `;
+}
+
+function selectOption(idx, value) {
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('opt-' + idx).classList.add('selected');
+  answers[questions[currentQ].key] = value;
+  const btn = document.getElementById('next-btn');
+  btn.disabled = false;
+  btn.classList.add('ready');
+}
+
+function nextQuestion() {
+  if (currentQ < questions.length - 1) {
+    currentQ++;
+    renderQuestion();
+  } else {
+    showScreen('screen-loading');
+    diagnose();
+  }
+}
+
+function pickCard(a) {
+  if (a.shop === 'convenience' || (a.priority === 'points' && a.ec === 'amazon')) return 'smbc';
+  if (a.shop === 'muji')   return 'muji';
+  if (a.shop === 'loft')   return 'loft';
+  if (a.shop === 'marui' || a.travel === 'overseas' || a.priority === 'travel') return 'epos';
+  if (a.ec === 'recruit'  || (a.priority === 'points' && a.point_use === 'flexible')) return 'recruit';
+  return 'recruit';
+}
+
+async function diagnose() {
+  const cardKey = pickCard(answers);
+  const card = cards[cardKey];
+  const summary = questions.map(q => {
+    const opt = q.options.find(o => o.value === answers[q.key]);
+    return `${q.q}→${opt ? opt.label : '未回答'}`;
+  }).join('、');
+
+  let reason = `${card.name}はあなたのライフスタイルにぴったりの1枚です！`;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: 'あなたはクレジットカード診断ツールのアドバイザーです。ユーザーの回答をもとに、選ばれたカードが最適な理由を50〜80文字の日本語で、親しみやすく説明してください。体言止めを使わず、「〜のあなたにぴったりです！」のように締めくくってください。説明文のみ返してください。',
+        messages: [{ role: 'user', content: `診断結果：${card.name}。ユーザーの回答：${summary}` }]
+      })
+    });
+    const data = await res.json();
+    if (data.content?.[0]?.text) reason = data.content[0].text;
+  } catch(e) {}
+
+  showResult(card, reason);
+}
+
+function showResult(card, reason) {
+  document.getElementById('result-card-name').textContent = card.name;
+  document.getElementById('result-name').textContent = card.name;
+  document.getElementById('result-reason').textContent = reason;
+  document.getElementById('result-apply-btn').href = card.url;
+
+  document.getElementById('result-tags').innerHTML =
+    card.tags.map(t => `<span class="tag">${t}</span>`).join('');
+
+  document.getElementById('result-specs').innerHTML = `
+    <div class="spec-item"><div class="spec-label">年会費</div><div class="spec-value">${card.annual}</div></div>
+    <div class="spec-item"><div class="spec-label">還元率</div><div class="spec-value">${card.rate}</div></div>
+    <div class="spec-item"><div class="spec-label">貯まるポイント</div><div class="spec-value">${card.point}</div></div>
+    <div class="spec-item"><div class="spec-label">国際ブランド</div><div class="spec-value">${card.brand}</div></div>
+  `;
+
+  showScreen('screen-result');
+}
+
+function retryQuiz() { startQuiz(); }
+</script>
+</body>
+</html>
