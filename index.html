@@ -489,34 +489,45 @@
 
 <!-- SCREEN: TOP -->
 <div id="screen-top" class="screen active">
-  <section class="hero">
-    <div class="hero-tag">✨ たった1分でわかる！</div>
-    <h1>あなたにぴったりの<br><span>クレジットカード</span>が<br>見つかる診断</h1>
-    <p>5つの質問に答えるだけ。<br>ライフスタイルに合った最適な1枚がわかります！</p>
-    <div class="hero-badges">
-      <div class="hero-badge-item">⏱ たった1分</div>
-      <div class="hero-badge-item">¥ 完全無料</div>
-      <div class="hero-badge-item">🔒 登録不要</div>
-    </div>
-    <button class="btn-orange" onclick="startQuiz()">無料で診断スタート ›</button>
-  </section>
+  <!-- TOPページ：画像の上に透明ボタンを重ねる -->
+  <div style="position:relative; width:100%; line-height:0;">
+    <img src="img/fv_bg.png" alt="クレカ診断 - あなたにぴったりのクレジットカードが見つかる診断" style="width:100%; display:block;">
 
-  <section class="worry-section">
-    <div class="worry-card">
-      <div class="worry-title">こんなお悩みありませんか？</div>
-      <div class="worry-grid">
-        <div class="worry-item">カードの種類が<br>多すぎて選べない</div>
-        <div class="worry-item">結局どれが<br>一番お得かわからない</div>
-        <div class="worry-item">自分に合うカードが<br>どれかわからない</div>
-        <div class="worry-item">作ってから<br>「失敗した」と思いたくない</div>
-      </div>
-      <div class="worry-cta">✅ この診断で、あなたに合う<span>1枚</span>がわかります！</div>
-    </div>
-  </section>
+    <!-- ボタン1: y=35.72%, h=7.62%, x=1.10%, w=97.81% -->
+    <button
+      onclick="startQuiz()"
+      aria-label="無料で診断スタート"
+      style="
+        position: absolute;
+        top: 35.7234%;
+        left: 1.0964%;
+        width: 97.8071%;
+        height: 7.6179%;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        border-radius: 100px;
+      "
+    ></button>
 
-  <div style="padding: 0 16px 32px; text-align:center;">
-    <button class="btn-orange" onclick="startQuiz()">無料で診断スタート ›</button>
-    <p style="font-size:11px;color:var(--text-muted);margin-top:10px">※診断は完全無料・登録不要です</p>
+    <!-- ボタン2: y=88.03%, h=7.62%, x=1.10%, w=97.81% -->
+    <button
+      onclick="startQuiz()"
+      aria-label="無料で診断スタート"
+      style="
+        position: absolute;
+        top: 88.0292%;
+        left: 1.0964%;
+        width: 97.8071%;
+        height: 7.6179%;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        border-radius: 100px;
+      "
+    ></button>
   </div>
 </div>
 
