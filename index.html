@@ -382,14 +382,12 @@
 
     /* ===== RESULT ===== */
     .result-header {
-      background: var(--blue);
-      color: var(--white);
-      padding: 28px 20px;
+      background: #ddeeff;
+      color: var(--blue);
+      padding: 20px;
       text-align: center;
     }
-    .result-header p   { font-size: 13px; opacity: 0.8; margin-bottom: 6px; }
-    .result-header h2  { font-size: 21px; font-weight: 700; line-height: 1.4; }
-    .result-header h2 span { color: var(--orange); }
+    .result-header h2 { font-size: 18px; font-weight: 700; line-height: 1.4; color: var(--blue); }
 
     .result-body { padding: 0 16px 32px; }
 
@@ -556,12 +554,11 @@
 <!-- SCREEN: RESULT -->
 <div id="screen-result" class="screen">
   <div class="result-header">
-    <p>診断完了！あなたにおすすめのカードは…</p>
-    <h2>✨ <span id="result-card-name"></span> ✨</h2>
+    <h2>診断完了！</h2>
   </div>
   <div class="result-body">
     <div class="result-main">
-      <div class="result-main-header">⭐ メインおすすめカード</div>
+      <div class="result-main-header">あなたにおすすめのカード</div>
       <div class="card-info">
         <div class="card-name" id="result-name"></div>
         <div class="tags" id="result-tags"></div>
