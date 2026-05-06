@@ -884,6 +884,10 @@ function showResult(card, reason) {
 }
 
 function retryQuiz() { startQuiz(); }
+
+if (new URLSearchParams(window.location.search).get('start') === 'quiz') {
+  startQuiz();
+}
 </script>
 
 <script>
