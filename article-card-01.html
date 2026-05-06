@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>年会費無料クレジットカード6枚を徹底比較 | クレカ診断</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #1a4fa0;
+      --blue-light: #f0f4fb;
+      --blue-mid: #dde6f5;
+      --orange: #f5a623;
+      --orange-text: #ffffff;
+      --text-dark: #1a2a4a;
+      --text-mid: #2a4a7a;
+      --text-muted: #6a7fa0;
+      --white: #ffffff;
+      --radius: 12px;
+      --radius-pill: 30px;
+    }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--blue-light);
+      color: var(--text-dark);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 40px;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      background: var(--blue);
+      color: var(--white);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-logo {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 18px; font-weight: 700;
+      text-decoration: none; color: #fff;
+    }
+    .header-logo svg { width: 22px; height: 22px; }
+    .header-badge {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px; padding: 4px 12px;
+      font-size: 11px; white-space: nowrap;
+      color: #fff; text-decoration: none;
+    }
+
+    /* ===== HAMBURGER ===== */
+    .hamburger {
+      background: none; border: none; cursor: pointer;
+      padding: 4px; display: flex; flex-direction: column;
+      gap: 5px; z-index: 201;
+    }
+    .hamburger span { display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; transition: all 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .nav-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 199; }
+    .nav-overlay.open { display: block; }
+    .nav-drawer { position: fixed; top: 0; right: -280px; width: 260px; height: 100%; background: #fff; z-index: 200; transition: right 0.3s ease; box-shadow: -4px 0 20px rgba(0,0,0,0.15); overflow-y: auto; }
+    .nav-drawer.open { right: 0; }
+    .nav-drawer-header { background: var(--blue); color: #fff; padding: 16px 20px; font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .nav-menu { padding: 8px 0; }
+    .nav-item { display: block; padding: 14px 20px; font-size: 14px; font-weight: 500; color: var(--text-dark); text-decoration: none; border-bottom: 1px solid var(--blue-light); transition: background 0.15s; }
+    .nav-item:hover { background: var(--blue-light); }
+    .nav-item.active { color: var(--blue); font-weight: 700; }
+    .nav-category { padding: 12px 20px 4px; font-size: 11px; font-weight: 700; color: var(--text-muted); }
+    .nav-sub-item { display: block; padding: 11px 20px 11px 32px; font-size: 13px; color: var(--text-mid); text-decoration: none; border-bottom: 1px solid var(--blue-light); transition: background 0.15s; }
+    .nav-sub-item:hover { background: var(--blue-light); }
+    .nav-sub-item.active { color: var(--blue); font-weight: 700; }
+    .nav-sub-item::before { content: '└ '; color: var(--text-muted); }
+
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb { padding: 10px 16px; font-size: 11px; color: var(--text-muted); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .breadcrumb a { color: var(--blue); text-decoration: none; }
+    .breadcrumb span { opacity: 0.5; }
+
+    /* ===== ARTICLE HEADER ===== */
+    .article-header { background: var(--white); padding: 20px 16px 24px; margin-bottom: 4px; }
+    .article-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+    .article-tag { background: var(--blue-light); color: var(--blue); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+    .article-date { font-size: 11px; color: var(--text-muted); }
+    .article-title { font-size: 20px; font-weight: 700; line-height: 1.5; color: var(--text-dark); margin-bottom: 12px; }
+    .article-lead { font-size: 13px; color: var(--text-mid); line-height: 1.8; padding: 14px; background: var(--blue-light); border-radius: 8px; border-left: 3px solid var(--blue); }
+
+    /* ===== ARTICLE BODY ===== */
+    .article-body { padding: 0 16px; }
+    .article-body h2 {
+      font-size: 17px; font-weight: 700; color: var(--white);
+      background: var(--blue); padding: 12px 16px;
+      border-radius: 8px; margin: 24px 0 14px;
+      line-height: 1.4;
+    }
+    .article-body h3 {
+      font-size: 15px; font-weight: 700; color: var(--blue);
+      border-left: 3px solid var(--blue);
+      padding-left: 10px; margin: 20px 0 10px;
+    }
+    .article-body p { font-size: 14px; line-height: 1.9; color: var(--text-mid); margin-bottom: 14px; }
+    .article-body ul { padding-left: 0; margin-bottom: 14px; list-style: none; }
+    .article-body ul li { font-size: 14px; line-height: 1.8; color: var(--text-mid); padding: 4px 0 4px 18px; position: relative; }
+    .article-body ul li::before { content: '✅ '; position: absolute; left: 0; }
+
+    /* ===== CARD BOX ===== */
+    .card-box {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(26,79,160,0.09);
+      margin: 16px 0;
+    }
+    .card-box-header {
+      background: var(--orange);
+      color: var(--orange-text);
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .card-box-body { padding: 16px; }
+    .card-box-name { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .card-box-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .tag { background: var(--blue-light); color: var(--blue); border: 1px solid var(--blue-mid); border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 500; }
+    .card-box-img { width: 90%; max-width: 288px; margin: 0 auto 14px; border-radius: 10px; display: block; }
+    .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+    .spec-item { background: var(--blue-light); border-radius: 8px; padding: 10px 12px; }
+    .spec-label { font-size: 10px; color: var(--text-muted); margin-bottom: 2px; }
+    .spec-value { font-size: 13px; font-weight: 700; }
+    .card-box-desc { font-size: 13px; color: var(--text-mid); line-height: 1.8; margin-bottom: 14px; }
+    .btn-orange {
+      display: block; width: 100%; background: var(--orange); color: var(--orange-text);
+      border: none; border-radius: var(--radius-pill); padding: 14px;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      font-family: 'Noto Sans JP', sans-serif; text-align: center;
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .btn-orange:hover { opacity: 0.88; }
+
+    /* ===== SUMMARY TABLE ===== */
+    .summary-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: 0 2px 8px rgba(26,79,160,0.07); margin: 16px 0; }
+    .summary-table th { background: var(--blue); color: #fff; padding: 10px 12px; text-align: left; font-size: 12px; }
+    .summary-table td { padding: 10px 12px; border-bottom: 1px solid var(--blue-mid); color: var(--text-mid); vertical-align: middle; }
+    .summary-table tr:last-child td { border-bottom: none; }
+    .summary-table tr:nth-child(even) td { background: #f8faff; }
+
+    /* ===== CTA ===== */
+    .cta-section { background: var(--blue); border-radius: var(--radius); padding: 20px; text-align: center; color: var(--white); margin: 24px 0 0; }
+    .cta-section h2 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .cta-section p { font-size: 12px; opacity: 0.85; margin-bottom: 14px; line-height: 1.6; }
+    .btn-orange-inline {
+      display: inline-block; background: var(--orange); color: var(--orange-text);
+      border-radius: var(--radius-pill); padding: 13px 28px;
+      font-size: 14px; font-weight: 700; text-decoration: none; transition: opacity 0.2s;
+    }
+    .btn-orange-inline:hover { opacity: 0.88; }
+
+    /* ===== FOOTER ===== */
+    .site-footer { background: var(--text-dark); color: rgba(255,255,255,0.5); text-align: center; font-size: 11px; padding: 16px; margin-top: 32px; }
+
+    /* ===== AD DISCLOSURE ===== */
+    .ad-disclosure { background: #fffbf0; border: 1px solid #f5dfa0; border-radius: 8px; padding: 10px 14px; font-size: 11px; color: var(--text-muted); line-height: 1.6; margin: 12px 0; }
+  </style>
+</head>
+<body>
+
+<!-- NAV DRAWER -->
+<div class="nav-overlay" id="nav-overlay" onclick="closeMenu()"></div>
+<div class="nav-drawer" id="nav-drawer">
+  <div class="nav-drawer-header">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+    メニュー
+  </div>
+  <nav class="nav-menu">
+    <a href="index.html" class="nav-item">クレカ診断</a>
+    <a href="compare.html" class="nav-item">クレカ比較</a>
+    <div class="nav-category">マネー記事</div>
+    <a href="articles-card.html" class="nav-sub-item active">クレジットカード</a>
+    <a href="articles-loan.html" class="nav-sub-item">カードローン</a>
+  </nav>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <button class="hamburger" onclick="toggleMenu()" aria-label="メニュー">
+    <span></span><span></span><span></span>
+  </button>
+  <a href="index.html" class="header-logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+      <line x1="1" y1="10" x2="23" y2="10"></line>
+    </svg>
+    クレカ診断
+  </a>
+  <a href="compare.html" class="header-badge">クレカ比較</a>
+</header>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="index.html">TOP</a>
+  <span>›</span>
+  <a href="articles-card.html">クレジットカード記事</a>
+  <span>›</span>
+  <span>年会費無料カード6枚を徹底比較</span>
+</div>
+
+<!-- ARTICLE HEADER -->
+<div class="article-header">
+  <div class="article-meta">
+    <span class="article-tag">比較</span>
+    <span class="article-date">2026.05.06</span>
+  </div>
+  <h1 class="article-title">年会費無料クレジットカード6枚を徹底比較！あなたに合う1枚はどれ？</h1>
+  <div class="article-lead">
+    クレジットカードを作りたいけれど、種類が多くて選べない…そんな方のために、年会費無料の主要6枚を還元率・特典・審査のしやすさで比較しました。5分で読めます。
+  </div>
+</div>
+
+<!-- AD DISCLOSURE -->
+<div style="padding: 0 16px;">
+  <div class="ad-disclosure">
+    #アフィリエイト広告 本記事にはアフィリエイトリンクが含まれています。
+  </div>
+</div>
+
+<!-- ARTICLE BODY -->
+<div class="article-body">
+
+  <h2>この記事で比較する6枚</h2>
+  <p>今回比較するのはすべて年会費永年無料のカードです。ライフスタイルによって最適な1枚は異なります。</p>
+  <table class="summary-table">
+    <thead>
+      <tr>
+        <th>カード名</th>
+        <th>還元率</th>
+        <th>こんな人に</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>エポスカード</td><td>0.5%〜</td><td>旅行・マルイ好き</td></tr>
+      <tr><td>ロフトカード</td><td>0.5%〜</td><td>ロフトヘビーユーザー</td></tr>
+      <tr><td>MUJI Card</td><td>0.5%〜</td><td>無印良品ファン</td></tr>
+      <tr><td>三井住友NL</td><td>最大7%</td><td>コンビニをよく使う方</td></tr>
+      <tr><td>リクルートカード</td><td>1.2%</td><td>高還元重視の方</td></tr>
+      <tr><td>Nexus Card</td><td>0.5%</td><td>審査に不安がある方</td></tr>
+    </tbody>
+  </table>
+
+  <h2>①エポスカード｜旅行好きに最強の1枚</h2>
+  <div class="card-box">
+    <div class="card-box-header">おすすめ度 ★★★★☆</div>
+    <div class="card-box-body">
+      <div class="card-box-name">エポスカード</div>
+      <div class="card-box-tags">
+        <span class="tag">海外旅行保険付き</span>
+        <span class="tag">全国10,000店舗優待</span>
+        <span class="tag">マルイでお得</span>
+      </div>
+      <img src="img/epos-card.png" alt="エポスカード" class="card-box-img">
+      <div class="spec-grid">
+        <div class="spec-item"><div class="spec-label">年会費</div><div class="spec-value">永年無料</div></div>
+        <div class="spec-item"><div class="spec-label">還元率</div><div class="spec-value">0.5%〜</div></div>
+        <div class="spec-item"><div class="spec-label">ポイント</div><div class="spec-value">エポスポイント</div></div>
+        <div class="spec-item"><div class="spec-label">ブランド</div><div class="spec-value">VISA</div></div>
+      </div>
+      <div class="card-box-desc">年会費無料なのに海外旅行傷害保険が付帯。マルイ・モディでの年4回10%OFFセールや全国10,000店舗の優待も魅力。</div>
+      <a href="https://www.epos.co.jp/" class="btn-orange" target="_blank" rel="noopener">エポスカードに申し込む ›</a>
+    </div>
+  </div>
+
+  <h2>②三井住友カード（NL）｜コンビニで最大7%還元</h2>
+  <div class="card-box">
+    <div class="card-box-header">おすすめ度 ★★★★★</div>
+    <div class="card-box-body">
+      <div class="card-box-name">三井住友カード（NL）</div>
+      <div class="card-box-tags">
+        <span class="tag">コンビニで最大7%</span>
+        <span class="tag">両面ナンバーレス</span>
+        <span class="tag">最短10秒発行</span>
+      </div>
+      <img src="img/mitsuinl-card.png" alt="三井住友カード（NL）" class="card-box-img">
+      <div class="spec-grid">
+        <div class="spec-item"><div class="spec-label">年会費</div><div class="spec-value">永年無料</div></div>
+        <div class="spec-item"><div class="spec-label">還元率</div><div class="spec-value">0.5%〜最大7%</div></div>
+        <div class="spec-item"><div class="spec-label">ポイント</div><div class="spec-value">Vポイント</div></div>
+        <div class="spec-item"><div class="spec-label">ブランド</div><div class="spec-value">VISA/MC</div></div>
+      </div>
+      <div class="card-box-desc">セブン-イレブン・ファミリーマート・マクドナルドなど対象店舗でスマホのタッチ決済をすると最大7%還元。最短10秒でカード番号が発行されるのも便利。</div>
+      <a href="https://www.smbc-card.com/" class="btn-orange" target="_blank" rel="noopener">三井住友カード（NL）に申し込む ›</a>
+    </div>
+  </div>
+
+  <h2>③リクルートカード｜どこでも1.2%の高還元</h2>
+  <div class="card-box">
+    <div class="card-box-header">おすすめ度 ★★★★★</div>
+    <div class="card-box-body">
+      <div class="card-box-name">リクルートカード</div>
+      <div class="card-box-tags">
+        <span class="tag">還元率1.2%</span>
+        <span class="tag">Pontaポイント交換可</span>
+        <span class="tag">じゃらん・ホットペッパーでお得</span>
+      </div>
+      <img src="img/recruit-card.png" alt="リクルートカード" class="card-box-img">
+      <div class="spec-grid">
+        <div class="spec-item"><div class="spec-label">年会費</div><div class="spec-value">永年無料</div></div>
+        <div class="spec-item"><div class="spec-label">還元率</div><div class="spec-value">1.2%</div></div>
+        <div class="spec-item"><div class="spec-label">ポイント</div><div class="spec-value">リクルートP</div></div>
+        <div class="spec-item"><div class="spec-label">ブランド</div><div class="spec-value">VISA/MC/JCB</div></div>
+      </div>
+      <div class="card-box-desc">どこで使っても還元率1.2%は業界最高水準。PontaポイントやdポイントへのE交換も可能。JCBブランドならETCカード無料＆最短5分発行。</div>
+      <a href="https://recruit-card.jp/" class="btn-orange" target="_blank" rel="noopener">リクルートカードに申し込む ›</a>
+    </div>
+  </div>
+
+  <h2>審査が不安な方へ｜Nexus Card</h2>
+  <div class="card-box">
+    <div class="card-box-header">🔒 審査に不安がある方に</div>
+    <div class="card-box-body">
+      <div class="card-box-name">Nexus Card（デポジット型）</div>
+      <div class="card-box-tags">
+        <span class="tag">審査不安でも申込可</span>
+        <span class="tag">デポジット型</span>
+        <span class="tag">クレヒス構築に</span>
+      </div>
+      <img src="img/nexus-card.png" alt="Nexus Card" class="card-box-img">
+      <div class="card-box-desc">保証金（デポジット）を預けることで、クレヒスに自信がない方でも作りやすいカード。過去に審査NGになった方も申込可能です。</div>
+      <a href="https://www.nexuscard.jp/" class="btn-orange" target="_blank" rel="noopener">Nexus Cardを詳しく見る ›</a>
+    </div>
+  </div>
+
+  <h2>まとめ｜あなたに合う1枚は？</h2>
+  <p>カード選びに迷ったら、まず自分のライフスタイルを振り返ってみましょう。</p>
+  <ul>
+    <li>コンビニをよく使う → 三井住友カード（NL）</li>
+    <li>とにかく高還元重視 → リクルートカード</li>
+    <li>旅行・海外が好き → エポスカード</li>
+    <li>ロフトが好き → ロフトカード</li>
+    <li>無印良品が好き → MUJI Card</li>
+    <li>審査に不安がある → Nexus Card</li>
+  </ul>
+
+  <div class="cta-section">
+    <h2>迷ったら診断ツールへ</h2>
+    <p>5問に答えるだけ！あなたの<br>ライフスタイルに合った1枚がわかります</p>
+    <a href="index.html" class="btn-orange-inline">無料で診断する ›</a>
+  </div>
+
+</div>
+
+<footer class="site-footer">Copyright &copy; 2026 クレカ診断 All Rights Reserved</footer>
+
+<script>
+function toggleMenu() {
+  document.getElementById('nav-drawer').classList.toggle('open');
+  document.getElementById('nav-overlay').classList.toggle('open');
+  document.querySelector('.hamburger').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('nav-drawer').classList.remove('open');
+  document.getElementById('nav-overlay').classList.remove('open');
+  document.querySelector('.hamburger').classList.remove('open');
+}
+</script>
+</body>
+</html>

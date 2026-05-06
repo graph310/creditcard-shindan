@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>クレジットカード記事一覧 | クレカ診断</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #1a4fa0;
+      --blue-light: #f0f4fb;
+      --blue-mid: #dde6f5;
+      --orange: #f5a623;
+      --orange-text: #ffffff;
+      --text-dark: #1a2a4a;
+      --text-mid: #2a4a7a;
+      --text-muted: #6a7fa0;
+      --white: #ffffff;
+      --radius: 12px;
+      --radius-pill: 30px;
+    }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--blue-light);
+      color: var(--text-dark);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 40px;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      background: var(--blue);
+      color: var(--white);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: 700;
+      text-decoration: none;
+      color: #fff;
+    }
+    .header-logo svg { width: 22px; height: 22px; }
+    .header-badge {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 11px;
+      white-space: nowrap;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    /* ===== HAMBURGER ===== */
+    .hamburger {
+      background: none; border: none; cursor: pointer;
+      padding: 4px; display: flex; flex-direction: column;
+      gap: 5px; z-index: 201;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: #fff; border-radius: 2px; transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .nav-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.4); z-index: 199;
+    }
+    .nav-overlay.open { display: block; }
+    .nav-drawer {
+      position: fixed; top: 0; right: -280px; width: 260px;
+      height: 100%; background: #fff; z-index: 200;
+      transition: right 0.3s ease;
+      box-shadow: -4px 0 20px rgba(0,0,0,0.15); overflow-y: auto;
+    }
+    .nav-drawer.open { right: 0; }
+    .nav-drawer-header {
+      background: var(--blue); color: #fff;
+      padding: 16px 20px; font-size: 15px; font-weight: 700;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .nav-menu { padding: 8px 0; }
+    .nav-item {
+      display: block; padding: 14px 20px; font-size: 14px;
+      font-weight: 500; color: var(--text-dark); text-decoration: none;
+      border-bottom: 1px solid var(--blue-light); transition: background 0.15s;
+    }
+    .nav-item:hover { background: var(--blue-light); }
+    .nav-item.active { color: var(--blue); font-weight: 700; }
+    .nav-category {
+      padding: 12px 20px 4px; font-size: 11px; font-weight: 700;
+      color: var(--text-muted); letter-spacing: 0.05em;
+    }
+    .nav-sub-item {
+      display: block; padding: 11px 20px 11px 32px; font-size: 13px;
+      color: var(--text-mid); text-decoration: none;
+      border-bottom: 1px solid var(--blue-light); transition: background 0.15s;
+    }
+    .nav-sub-item:hover { background: var(--blue-light); }
+    .nav-sub-item.active { color: var(--blue); font-weight: 700; }
+    .nav-sub-item::before { content: '└ '; color: var(--text-muted); }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: var(--blue);
+      color: var(--white);
+      padding: 28px 20px 32px;
+    }
+    .hero-tag {
+      background: var(--orange);
+      color: var(--orange-text);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+    .hero h1 { font-size: 20px; font-weight: 700; line-height: 1.5; margin-bottom: 6px; }
+    .hero p { font-size: 13px; opacity: 0.85; line-height: 1.6; }
+
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb {
+      padding: 10px 16px;
+      font-size: 11px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .breadcrumb a { color: var(--blue); text-decoration: none; }
+    .breadcrumb span { opacity: 0.5; }
+
+    /* ===== ARTICLE LIST ===== */
+    .article-section { padding: 0 16px 16px; }
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      padding-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--blue-mid);
+    }
+
+    .article-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 8px rgba(26,79,160,0.07);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: box-shadow 0.2s;
+    }
+    .article-card:hover { box-shadow: 0 4px 16px rgba(26,79,160,0.13); }
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .article-tag {
+      background: var(--blue-light);
+      color: var(--blue);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+    .article-date { font-size: 11px; color: var(--text-muted); }
+    .article-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-dark);
+      line-height: 1.5;
+      margin-bottom: 6px;
+    }
+    .article-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .article-arrow {
+      text-align: right;
+      font-size: 12px;
+      color: var(--blue);
+      margin-top: 8px;
+      font-weight: 500;
+    }
+
+    /* ===== CTA ===== */
+    .cta-section {
+      margin: 8px 16px 0;
+      background: var(--blue);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: center;
+      color: var(--white);
+    }
+    .cta-section h2 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .cta-section p { font-size: 12px; opacity: 0.85; margin-bottom: 14px; line-height: 1.6; }
+    .btn-orange {
+      display: inline-block;
+      background: var(--orange);
+      color: var(--orange-text);
+      border: none;
+      border-radius: var(--radius-pill);
+      padding: 13px 28px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Noto Sans JP', sans-serif;
+      text-decoration: none;
+      text-align: center;
+      transition: opacity 0.2s;
+    }
+    .btn-orange:hover { opacity: 0.88; }
+
+    /* ===== FOOTER ===== */
+    .site-footer {
+      background: var(--text-dark);
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      font-size: 11px;
+      padding: 16px;
+      margin-top: 32px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV DRAWER -->
+<div class="nav-overlay" id="nav-overlay" onclick="closeMenu()"></div>
+<div class="nav-drawer" id="nav-drawer">
+  <div class="nav-drawer-header">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+    メニュー
+  </div>
+  <nav class="nav-menu">
+    <a href="index.html" class="nav-item">クレカ診断</a>
+    <a href="compare.html" class="nav-item">クレカ比較</a>
+    <div class="nav-category">マネー記事</div>
+    <a href="articles-card.html" class="nav-sub-item active">クレジットカード</a>
+    <a href="articles-loan.html" class="nav-sub-item">カードローン</a>
+  </nav>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <button class="hamburger" onclick="toggleMenu()" aria-label="メニュー">
+    <span></span><span></span><span></span>
+  </button>
+  <a href="index.html" class="header-logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+      <line x1="1" y1="10" x2="23" y2="10"></line>
+    </svg>
+    クレカ診断
+  </a>
+  <a href="compare.html" class="header-badge">クレカ比較</a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">マネー記事</div>
+  <h1>クレジットカード<br>お役立ち記事</h1>
+  <p>カード選びに役立つ情報をまとめました。</p>
+</section>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="index.html">TOP</a>
+  <span>›</span>
+  <span>マネー記事</span>
+  <span>›</span>
+  <span>クレジットカード</span>
+</div>
+
+<!-- ARTICLE LIST -->
+<div class="article-section">
+  <div class="section-label">新着記事</div>
+
+  <a href="article-card-01.html" class="article-card">
+    <div class="article-meta">
+      <span class="article-tag">比較</span>
+      <span class="article-date">2026.05.06</span>
+    </div>
+    <div class="article-title">年会費無料クレジットカード6枚を徹底比較！あなたに合う1枚はどれ？</div>
+    <div class="article-desc">エポス・ロフト・MUJI Card・三井住友NL・リクルート・Nexus Cardを還元率・特典・審査のしやすさで比較しました。</div>
+    <div class="article-arrow">続きを読む ›</div>
+  </a>
+
+  <a href="article-card-02.html" class="article-card">
+    <div class="article-meta">
+      <span class="article-tag">解説</span>
+      <span class="article-date">2026.05.06</span>
+    </div>
+    <div class="article-title">コンビニでポイントが貯まるクレジットカードはどれ？セブン・ファミマ・ローソン別に解説</div>
+    <div class="article-desc">コンビニでお得に使えるカードを徹底解説。三井住友カード（NL）のタッチ決済で最大7%還元を活用しよう。</div>
+    <div class="article-arrow">続きを読む ›</div>
+  </a>
+
+  <a href="article-card-03.html" class="article-card">
+    <div class="article-meta">
+      <span class="article-tag">初心者向け</span>
+      <span class="article-date">2026.05.06</span>
+    </div>
+    <div class="article-title">クレジットカードの審査が不安な方へ。デポジット型カードで作る方法</div>
+    <div class="article-desc">過去に審査NGになった方でも作りやすいデポジット型クレジットカードの仕組みと申込方法を解説します。</div>
+    <div class="article-arrow">続きを読む ›</div>
+  </a>
+
+  <a href="article-card-04.html" class="article-card">
+    <div class="article-meta">
+      <span class="article-tag">ライフスタイル</span>
+      <span class="article-date">2026.05.06</span>
+    </div>
+    <div class="article-title">旅行好きにおすすめのクレジットカードは？海外旅行保険付きカードを比較</div>
+    <div class="article-desc">海外旅行保険が付帯しているカードを比較。エポスカードは年会費無料で自動付帯に近い補償が魅力です。</div>
+    <div class="article-arrow">続きを読む ›</div>
+  </a>
+
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2>どのカードか迷ったら</h2>
+  <p>5問に答えるだけ！あなたに<br>ぴったりの1枚を無料で診断</p>
+  <a href="index.html" class="btn-orange">無料で診断する ›</a>
+</div>
+
+<footer class="site-footer">Copyright &copy; 2026 クレカ診断 All Rights Reserved</footer>
+
+<script>
+function toggleMenu() {
+  document.getElementById('nav-drawer').classList.toggle('open');
+  document.getElementById('nav-overlay').classList.toggle('open');
+  document.querySelector('.hamburger').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('nav-drawer').classList.remove('open');
+  document.getElementById('nav-overlay').classList.remove('open');
+  document.querySelector('.hamburger').classList.remove('open');
+}
+</script>
+</body>
+</html>
