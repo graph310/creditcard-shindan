@@ -566,6 +566,8 @@
         <div class="reason-box" id="result-reason"></div>
         <div class="spec-grid" id="result-specs"></div>
         <a id="result-apply-btn" href="#" class="btn-orange" target="_blank" rel="noopener">このカードに申し込む ›</a>
+        <div id="result-pr" style="display:none; margin-top:20px; padding:16px; background:#f8faff; border-radius:10px; font-size:13px; color:#2a4a7a; line-height:2;"></div>
+        <a id="result-apply-btn2" href="#" class="btn-orange" target="_blank" rel="noopener" style="display:none; margin-top:16px;">このカードに申し込む ›</a>
       </div>
     </div>
 
@@ -618,11 +620,12 @@ const questions = [
 ];
 
 const cards = {
-  epos:    { name: "エポスカード",         annual: "永年無料", rate: "0.5%（優待で最大10%以上）", point: "エポスポイント",     brand: "VISA",                    url: "https://www.epos.co.jp/",           img: "img/epos-card.png",       tags: ["海外旅行保険付き", "全国10,000店舗優待", "マルイでお得"] },
-  loft:    { name: "ロフトカード",         annual: "永年無料", rate: "0.5%〜",                    point: "永久不滅ポイント",   brand: "VISA / Mastercard",       url: "https://www.saisoncard.co.jp/",     img: "img/loft-card.png",       tags: ["ロフトで特典", "文具・コスメ好きに◎", "セゾン系列優待"] },
-  muji:    { name: "MUJI Card",            annual: "永年無料", rate: "0.5%〜",                    point: "MUJIマイル",         brand: "VISA",                    url: "https://www.muji.com/jp/mujicard/", img: "img/muji-card.png",       tags: ["無印良品でマイルが貯まる", "無印でお得", "シンプルライフ向け"] },
-  smbc:    { name: "三井住友カード（NL）", annual: "永年無料", rate: "0.5%（コンビニ最大7%）",   point: "Vポイント",          brand: "VISA / Mastercard",       url: "https://www.smbc-card.com/",        img: "img/mitsuinl-card.png",   tags: ["セブン・ファミマで高還元", "ナンバーレスで安全", "ネット決済◎"] },
-  recruit: { name: "リクルートカード",     annual: "永年無料", rate: "1.2%（業界最高水準）",      point: "リクルートポイント", brand: "VISA / Mastercard / JCB", url: "https://recruit-card.jp/",          img: "img/recruit-card.png",    tags: ["還元率1.2%", "Pontaポイントに交換可", "じゃらん・ホットペッパーでさらにお得"] }
+  epos:    { name: "エポスカード",         annual: "永年無料", rate: "0.5%（優待で最大10%以上）", point: "エポスポイント",     brand: "VISA",                    url: "https://www.epos.co.jp/",           img: "img/epos-card.png",       tags: ["海外旅行保険付き", "全国10,000店舗優待", "マルイでお得"],
+    pr: "入会金・年会費永年無料。ふだんのお買い物や、携帯料金や電気料金などの公共料金のお支払いでもポイントがたまります。\n\n●カード番号が裏面に記載されており周囲から見えず、あんしん・安全\n●タッチ決済でスムーズにお買い物\n●マルイやマルイのネット通販で、年4回の10%OFFセール\n●全国10,000店舗の提携店舗・施設でおトクな特典\n●会員限定ポイントアップサイトからのご利用でポイント2〜30倍\n●海外旅行傷害保険の補償内容が充実（利用付帯）\n\nエポスカードは株式会社丸井グループのクレジットカード会社です。" },
+  loft:    { name: "ロフトカード",         annual: "永年無料", rate: "0.5%〜",                    point: "永久不滅ポイント",   brand: "VISA / Mastercard",       url: "https://www.saisoncard.co.jp/",     img: "img/loft-card.png",       tags: ["ロフトで特典", "文具・コスメ好きに◎", "セゾン系列優待"],         pr: "" },
+  muji:    { name: "MUJI Card",            annual: "永年無料", rate: "0.5%〜",                    point: "MUJIマイル",         brand: "VISA",                    url: "https://www.muji.com/jp/mujicard/", img: "img/muji-card.png",       tags: ["無印良品でマイルが貯まる", "無印でお得", "シンプルライフ向け"],   pr: "" },
+  smbc:    { name: "三井住友カード（NL）", annual: "永年無料", rate: "0.5%（コンビニ最大7%）",   point: "Vポイント",          brand: "VISA / Mastercard",       url: "https://www.smbc-card.com/",        img: "img/mitsuinl-card.png",   tags: ["セブン・ファミマで高還元", "ナンバーレスで安全", "ネット決済◎"], pr: "" },
+  recruit: { name: "リクルートカード",     annual: "永年無料", rate: "1.2%（業界最高水準）",      point: "リクルートポイント", brand: "VISA / Mastercard / JCB", url: "https://recruit-card.jp/",          img: "img/recruit-card.png",    tags: ["還元率1.2%", "Pontaポイントに交換可", "じゃらん・ホットペッパーでさらにお得"], pr: "" }
 };
 
 let answers = {}, currentQ = 0;
@@ -752,6 +755,18 @@ function showResult(card, reason) {
     <div class="spec-item"><div class="spec-label">貯まるポイント</div><div class="spec-value">${card.point}</div></div>
     <div class="spec-item"><div class="spec-label">国際ブランド</div><div class="spec-value">${card.brand}</div></div>
   `;
+
+  // PR文エリア
+  const prEl = document.getElementById('result-pr');
+  if (card.pr) {
+    prEl.innerHTML = card.pr.split('\n').map(line => line ? `<p>${line}</p>` : '<br>').join('');
+    prEl.style.display = 'block';
+    document.getElementById('result-apply-btn2').style.display = 'block';
+    document.getElementById('result-apply-btn2').href = card.url;
+  } else {
+    prEl.style.display = 'none';
+    document.getElementById('result-apply-btn2').style.display = 'none';
+  }
 
   showScreen('screen-result');
 }
