@@ -476,7 +476,7 @@
 <body>
 
 <!-- HEADER (TOPページでは非表示) -->
-<header class="header" id="site-header" style="display:none;">
+<header class="header" id="site-header">
   <button onclick="goTop()" style="display:flex;align-items:center;gap:8px;font-size:18px;font-weight:700;color:#fff;background:none;border:none;cursor:pointer;font-family:'Noto Sans JP',sans-serif;padding:0;">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
@@ -489,23 +489,19 @@
 
 <!-- SCREEN: TOP -->
 <div id="screen-top" class="screen active">
-  <!-- TOPページ：画像上部78.5px分をクロップし、透明ボタンを重ねる -->
-  <div style="position:relative; width:100%; line-height:0; overflow:hidden;">
-    <!-- 画像比率 852×2005 → 上部3.9159%をクロップ -->
-    <div style="margin-top: -3.9159vw;">
-      <img src="img/fv_bg.png" alt="クレカ診断 - あなたにぴったりのクレジットカードが見つかる診断" style="width:100%; display:block;">
-    </div>
+  <div style="position:relative; width:100%; line-height:0;">
+    <img src="img/fv_bg.png" alt="クレカ診断 - あなたにぴったりのクレジットカードが見つかる診断" style="width:100%; display:block;">
 
-    <!-- ボタン1 (クロップ後の座標で再計算) -->
+    <!-- ボタン1 -->
     <button
       onclick="startQuiz()"
       aria-label="無料で診断スタート"
       style="
         position: absolute;
-        top: 33.1038%;
+        top: 35.7234%;
         left: 1.0964%;
         width: 97.8071%;
-        height: 7.9284%;
+        height: 7.6179%;
         background: transparent;
         border: none;
         cursor: pointer;
@@ -520,10 +516,10 @@
       aria-label="無料で診断スタート"
       style="
         position: absolute;
-        top: 87.5413%;
+        top: 88.0292%;
         left: 1.0964%;
         width: 97.8071%;
-        height: 7.9284%;
+        height: 7.6179%;
         background: transparent;
         border: none;
         cursor: pointer;
@@ -635,8 +631,6 @@ let answers = {}, currentQ = 0;
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  const header = document.getElementById('site-header');
-  header.style.display = (id === 'screen-top') ? 'none' : 'flex';
   window.scrollTo(0, 0);
 }
 
