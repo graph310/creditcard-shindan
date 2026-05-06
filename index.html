@@ -562,6 +562,7 @@
       <div class="card-info">
         <div class="card-name" id="result-name"></div>
         <div class="tags" id="result-tags"></div>
+        <img id="result-card-img" src="" alt="" style="display:none; width:100%; max-width:320px; margin:14px auto; border-radius:12px; display:block;">
         <div class="reason-box" id="result-reason"></div>
         <div class="spec-grid" id="result-specs"></div>
         <a id="result-apply-btn" href="#" class="btn-orange" target="_blank" rel="noopener">このカードに申し込む ›</a>
@@ -572,6 +573,7 @@
       <div class="nexus-header">🔒 審査に不安がある方はこちらもチェック</div>
       <div class="nexus-body">
         <div class="nexus-name">Nexus Card（デポジット型）</div>
+        <img src="img/nexus-card.png" alt="Nexus Card" style="width:100%; max-width:320px; margin:12px auto 14px; border-radius:12px; display:block;">
         <div class="nexus-desc">審査に不安がある方でも作りやすいデポジット型クレジットカード。保証金を預けるシステムなので、クレヒスに自信がない方の最初の1枚にも最適です。</div>
         <a href="https://www.nexuscard.jp/" class="btn-outline" target="_blank" rel="noopener">Nexus Cardを詳しく見る ›</a>
       </div>
@@ -616,11 +618,11 @@ const questions = [
 ];
 
 const cards = {
-  epos:    { name: "エポスカード",       annual: "永年無料", rate: "0.5%（優待で最大10%以上）", point: "エポスポイント",      brand: "VISA",                    url: "https://www.epos.co.jp/",        tags: ["海外旅行保険付き", "全国10,000店舗優待", "マルイでお得"] },
-  loft:    { name: "ロフトカード",       annual: "永年無料", rate: "0.5%〜",                    point: "永久不滅ポイント",    brand: "VISA / Mastercard",       url: "https://www.saisoncard.co.jp/", tags: ["ロフトで特典", "文具・コスメ好きに◎", "セゾン系列優待"] },
-  muji:    { name: "MUJI Card",          annual: "永年無料", rate: "0.5%〜",                    point: "MUJIマイル",          brand: "VISA",                    url: "https://www.muji.com/jp/mujicard/", tags: ["無印良品でマイルが貯まる", "無印でお得", "シンプルライフ向け"] },
-  smbc:    { name: "三井住友カード（NL）", annual: "永年無料", rate: "0.5%（コンビニ最大7%）",   point: "Vポイント",           brand: "VISA / Mastercard",       url: "https://www.smbc-card.com/",    tags: ["セブン・ファミマで高還元", "ナンバーレスで安全", "ネット決済◎"] },
-  recruit: { name: "リクルートカード",   annual: "永年無料", rate: "1.2%（業界最高水準）",      point: "リクルートポイント",  brand: "VISA / Mastercard / JCB", url: "https://recruit-card.jp/",      tags: ["還元率1.2%", "Pontaポイントに交換可", "じゃらん・ホットペッパーでさらにお得"] }
+  epos:    { name: "エポスカード",         annual: "永年無料", rate: "0.5%（優待で最大10%以上）", point: "エポスポイント",     brand: "VISA",                    url: "https://www.epos.co.jp/",           img: "img/epos-card.png",       tags: ["海外旅行保険付き", "全国10,000店舗優待", "マルイでお得"] },
+  loft:    { name: "ロフトカード",         annual: "永年無料", rate: "0.5%〜",                    point: "永久不滅ポイント",   brand: "VISA / Mastercard",       url: "https://www.saisoncard.co.jp/",     img: "img/loft-card.png",       tags: ["ロフトで特典", "文具・コスメ好きに◎", "セゾン系列優待"] },
+  muji:    { name: "MUJI Card",            annual: "永年無料", rate: "0.5%〜",                    point: "MUJIマイル",         brand: "VISA",                    url: "https://www.muji.com/jp/mujicard/", img: "img/muji-card.png",       tags: ["無印良品でマイルが貯まる", "無印でお得", "シンプルライフ向け"] },
+  smbc:    { name: "三井住友カード（NL）", annual: "永年無料", rate: "0.5%（コンビニ最大7%）",   point: "Vポイント",          brand: "VISA / Mastercard",       url: "https://www.smbc-card.com/",        img: "img/mitsuinl-card.png",   tags: ["セブン・ファミマで高還元", "ナンバーレスで安全", "ネット決済◎"] },
+  recruit: { name: "リクルートカード",     annual: "永年無料", rate: "1.2%（業界最高水準）",      point: "リクルートポイント", brand: "VISA / Mastercard / JCB", url: "https://recruit-card.jp/",          img: "img/recruit-card.png",    tags: ["還元率1.2%", "Pontaポイントに交換可", "じゃらん・ホットペッパーでさらにお得"] }
 };
 
 let answers = {}, currentQ = 0;
@@ -734,6 +736,15 @@ function showResult(card, reason) {
 
   document.getElementById('result-tags').innerHTML =
     card.tags.map(t => `<span class="tag">${t}</span>`).join('');
+
+  const imgEl = document.getElementById('result-card-img');
+  if (card.img) {
+    imgEl.src = card.img;
+    imgEl.alt = card.name;
+    imgEl.style.display = 'block';
+  } else {
+    imgEl.style.display = 'none';
+  }
 
   document.getElementById('result-specs').innerHTML = `
     <div class="spec-item"><div class="spec-label">年会費</div><div class="spec-value">${card.annual}</div></div>
