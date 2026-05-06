@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    :root{--blue:#1a4fa0;--blue-light:#f0f4fb;--blue-mid:#dde6f5;--orange:#f5a623;--orange-text:#ffffff;--text-dark:#1a2a4a;--text-mid:#2a4a7a;--text-muted:#6a7fa0;--white:#ffffff;--radius:12px;--radius-pill:30px;}
+    body{font-family:'Noto Sans JP',sans-serif;background:var(--blue-light);color:var(--text-dark);min-height:100vh;-webkit-font-smoothing:antialiased;padding-bottom:40px;}
+    .header{background:var(--blue);color:var(--white);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+    .header-logo{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:700;text-decoration:none;color:#fff;}
+    .header-logo svg{width:22px;height:22px;}
+    .header-badge{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:4px 12px;font-size:11px;white-space:nowrap;color:#fff;text-decoration:none;}
+    .hamburger{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:5px;z-index:201;}
+    .hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all 0.3s;}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+    .hamburger.open span:nth-child(2){opacity:0;}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+    .nav-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:199;}
+    .nav-overlay.open{display:block;}
+    .nav-drawer{position:fixed;top:0;right:-280px;width:260px;height:100%;background:#fff;z-index:200;transition:right 0.3s ease;box-shadow:-4px 0 20px rgba(0,0,0,0.15);overflow-y:auto;}
+    .nav-drawer.open{right:0;}
+    .nav-drawer-header{background:var(--blue);color:#fff;padding:16px 20px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;}
+    .nav-menu{padding:8px 0;}
+    .nav-item{display:block;padding:14px 20px;font-size:14px;font-weight:500;color:var(--text-dark);text-decoration:none;border-bottom:1px solid var(--blue-light);transition:background 0.15s;}
+    .nav-item:hover{background:var(--blue-light);}
+    .nav-item.active{color:var(--blue);font-weight:700;}
+    .nav-category{padding:12px 20px 4px;font-size:11px;font-weight:700;color:var(--text-muted);}
+    .nav-sub-item{display:block;padding:11px 20px 11px 32px;font-size:13px;color:var(--text-mid);text-decoration:none;border-bottom:1px solid var(--blue-light);transition:background 0.15s;}
+    .nav-sub-item:hover{background:var(--blue-light);}
+    .nav-sub-item.active{color:var(--blue);font-weight:700;}
+    .nav-sub-item::before{content:"└ ";color:var(--text-muted);}
+    .breadcrumb{padding:10px 16px;font-size:11px;color:var(--text-muted);display:flex;gap:6px;align-items:center;flex-wrap:wrap;}
+    .breadcrumb a{color:var(--blue);text-decoration:none;}
+    .article-header{background:var(--white);padding:20px 16px 24px;margin-bottom:4px;}
+    .article-meta{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+    .article-tag{background:var(--blue-light);color:var(--blue);font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+    .article-date{font-size:11px;color:var(--text-muted);}
+    .article-title{font-size:20px;font-weight:700;line-height:1.5;color:var(--text-dark);margin-bottom:12px;}
+    .article-lead{font-size:13px;color:var(--text-mid);line-height:1.8;padding:14px;background:var(--blue-light);border-radius:8px;border-left:3px solid var(--blue);}
+    .ad-disclosure{background:#fffbf0;border:1px solid #f5dfa0;border-radius:8px;padding:10px 14px;font-size:11px;color:var(--text-muted);line-height:1.6;margin:12px 0;}
+    .article-body{padding:0 16px;}
+    .article-body h2{font-size:17px;font-weight:700;color:var(--white);background:var(--blue);padding:12px 16px;border-radius:8px;margin:24px 0 14px;line-height:1.4;}
+    .article-body h3{font-size:15px;font-weight:700;color:var(--blue);border-left:3px solid var(--blue);padding-left:10px;margin:20px 0 10px;}
+    .article-body p{font-size:14px;line-height:1.9;color:var(--text-mid);margin-bottom:14px;}
+    .article-body ul{padding-left:0;margin-bottom:14px;list-style:none;}
+    .article-body ul li{font-size:14px;line-height:1.8;color:var(--text-mid);padding:4px 0 4px 22px;position:relative;}
+    .article-body ul li::before{content:"✅ ";position:absolute;left:0;}
+    .article-body a{color:var(--blue);text-decoration:underline;}
+    .toc{background:var(--white);border:1px solid var(--blue-mid);border-radius:var(--radius);padding:16px;margin:16px 0;}
+    .toc-title{font-size:13px;font-weight:700;color:var(--text-dark);margin-bottom:10px;}
+    .toc ol{padding-left:18px;}
+    .toc ol li{font-size:13px;color:var(--blue);line-height:1.9;}
+    .toc ol li a{color:var(--blue);text-decoration:none;}
+    .comp-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0;border-radius:var(--radius);}
+    .comp-table{border-collapse:collapse;min-width:560px;width:100%;background:var(--white);font-size:12px;box-shadow:0 2px 12px rgba(26,79,160,0.08);}
+    .comp-table th{background:var(--blue);color:#fff;padding:10px 10px;text-align:center;font-size:12px;font-weight:700;border-right:1px solid rgba(255,255,255,0.2);}
+    .comp-table td{padding:10px;text-align:center;border-bottom:1px solid var(--blue-mid);border-right:1px solid var(--blue-mid);font-size:12px;color:var(--text-mid);vertical-align:middle;line-height:1.5;}
+    .comp-table tr:last-child td{border-bottom:none;}
+    .comp-table td:last-child,.comp-table th:last-child{border-right:none;}
+    .comp-table tr:nth-child(even) td{background:#f8faff;}
+    .comp-table .label-col{background:var(--blue-light);color:var(--blue);font-weight:700;text-align:left;white-space:nowrap;}
+    .comp-table .highlight{color:var(--blue);font-weight:700;}
+    .comp-table .orange{color:var(--orange);font-weight:700;}
+    .company-card{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:0 2px 10px rgba(26,79,160,0.09);margin:16px 0;}
+    .company-card-header{background:var(--blue);color:#fff;padding:12px 16px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;}
+    .company-card-num{background:var(--orange);color:#fff;font-size:11px;font-weight:700;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .company-card-body{padding:16px;}
+    .company-card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+    .tag{background:var(--blue-light);color:var(--blue);border:1px solid var(--blue-mid);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:500;}
+    .company-card-desc{font-size:13px;color:var(--text-mid);line-height:1.8;margin-bottom:12px;}
+    .spec-mini{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px;}
+    .spec-mini-item{background:var(--blue-light);border-radius:8px;padding:8px 10px;}
+    .spec-mini-label{font-size:10px;color:var(--text-muted);margin-bottom:2px;}
+    .spec-mini-value{font-size:12px;font-weight:700;color:var(--text-dark);}
+    .detail-link{display:block;text-align:right;font-size:12px;color:var(--blue);font-weight:700;text-decoration:none;margin-top:4px;}
+    .warn-box{background:#fff8f0;border:1px solid #f5c060;border-radius:8px;padding:12px 14px;font-size:13px;color:#7a4a00;line-height:1.7;margin:16px 0;}
+    .warn-box strong{display:block;margin-bottom:4px;}
+    .check-list{background:var(--white);border-radius:var(--radius);padding:16px;margin:16px 0;box-shadow:0 2px 8px rgba(26,79,160,0.07);}
+    .check-list-title{font-size:14px;font-weight:700;color:var(--text-dark);margin-bottom:12px;}
+    .check-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--blue-mid);font-size:13px;color:var(--text-mid);line-height:1.7;}
+    .check-item:last-child{border-bottom:none;}
+    .check-num{background:var(--blue);color:#fff;font-size:11px;font-weight:700;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+    .cta-section{background:var(--blue);border-radius:var(--radius);padding:20px;text-align:center;color:var(--white);margin:24px 0 0;}
+    .cta-section h2{font-size:15px;font-weight:700;margin-bottom:6px;}
+    .cta-section p{font-size:12px;opacity:0.85;margin-bottom:14px;line-height:1.6;}
+    .btn-orange{display:inline-block;background:var(--orange);color:var(--orange-text);border-radius:var(--radius-pill);padding:13px 28px;font-size:14px;font-weight:700;text-decoration:none;transition:opacity 0.2s;}
+    .btn-orange:hover{opacity:0.88;}
+    .site-footer{background:var(--text-dark);color:rgba(255,255,255,0.5);text-align:center;font-size:11px;padding:16px;margin-top:32px;}
+  </style>
+  <title>消費者金融11社を徹底比較！大手4社と中小7社の違いと選び方【2026年最新】</title>
+  <meta name="description" content="プロミス・アコム・アイフル・SMBCモビットの大手4社と、中小消費者金融7社を徹底比較。審査・金利・融資スピードを一覧表で解説します。">
+</head>
+<body>
+<div class="nav-overlay" id="nav-overlay" onclick="closeMenu()"></div>
+<div class="nav-drawer" id="nav-drawer">
+  <div class="nav-drawer-header">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+    メニュー
+  </div>
+  <nav class="nav-menu">
+    <a href="index.html" class="nav-item">クレカ診断</a>
+    <a href="compare.html" class="nav-item">クレカ比較</a>
+    <div class="nav-category">マネー記事</div>
+    <a href="articles-card.html" class="nav-sub-item">クレジットカード</a>
+    <a href="articles-loan.html" class="nav-sub-item active">カードローン</a>
+  </nav>
+</div>
+<header class="header">
+  <button class="hamburger" onclick="toggleMenu()" aria-label="メニュー"><span></span><span></span><span></span></button>
+  <a href="index.html" class="header-logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+    クレカ診断
+  </a>
+  <a href="compare.html" class="header-badge">クレカ比較</a>
+</header>
+<div class="breadcrumb"><a href="index.html">TOP</a><span>›</span><a href="articles-loan.html">カードローン記事</a><span>›</span><span>大手vs中小11社比較</span></div>
+<div class="article-header">
+  <div class="article-meta"><span class="article-tag">比較</span><span class="article-date">2026.05.06</span></div>
+  <h1 class="article-title">消費者金融11社を徹底比較！大手4社と中小7社の違いと選び方のポイント【2026年最新】</h1>
+  <div class="article-lead">「どの消費者金融に申し込めばいいかわからない」そんな方のために、大手4社（プロミス・アコム・アイフル・SMBCモビット）と中小7社を金利・審査・スピードで徹底比較しました。あなたの状況に合った1社が見つかります。</div>
+</div>
+<div style="padding:0 16px;"><div class="ad-disclosure">#アフィリエイト広告 本記事にはアフィリエイトリンクが含まれています。</div></div>
+<div class="article-body">
+  <div class="toc">
+    <div class="toc-title">📋 この記事の目次</div>
+    <ol>
+      <li><a href="#summary">11社まとめ比較表</a></li>
+      <li><a href="#major">大手4社の特徴と強み</a></li>
+      <li><a href="#minor">中小7社の特徴と強み</a></li>
+      <li><a href="#target">ターゲット別おすすめ</a></li>
+      <li><a href="#caution">申し込み前の注意点</a></li>
+    </ol>
+  </div>
+
+  <h2 id="summary">【2026年最新】消費者金融11社まとめ比較表</h2>
+  <p>まず全11社を一覧で比較します。金利・限度額・融資スピード・特徴を確認してください。</p>
+  <div class="comp-table-wrap">
+    <table class="comp-table">
+      <thead>
+        <tr><th>会社名</th><th>金利（年率）</th><th>限度額</th><th>最短融資</th><th>無利息期間</th><th>分類</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="label-col">プロミス</td><td class="highlight">4.5〜17.8%</td><td>500万円</td><td class="highlight">最短3分</td><td>30日間</td><td><span class="tag">大手</span></td></tr>
+        <tr><td class="label-col">アコム</td><td>3.0〜18.0%</td><td>800万円</td><td class="highlight">最短20分</td><td>30日間</td><td><span class="tag">大手</span></td></tr>
+        <tr><td class="label-col">アイフル</td><td>3.0〜18.0%</td><td>800万円</td><td class="highlight">最短18分</td><td>30日間</td><td><span class="tag">大手</span></td></tr>
+        <tr><td class="label-col">SMBCモビット</td><td>3.0〜18.0%</td><td>800万円</td><td class="highlight">最短15秒</td><td>なし</td><td><span class="tag">大手</span></td></tr>
+        <tr><td class="label-col">セントラル</td><td>4.8〜18.0%</td><td>300万円</td><td>即日</td><td>30日間</td><td><span class="tag">中小</span></td></tr>
+        <tr><td class="label-col">フタバ</td><td>14.959〜19.945%</td><td>50万円</td><td>即日</td><td>30日間</td><td><span class="tag">中小</span></td></tr>
+        <tr><td class="label-col">フクホー</td><td>7.3〜18.0%</td><td>200万円</td><td>即日</td><td>なし</td><td><span class="tag">中小</span></td></tr>
+        <tr><td class="label-col">アロー</td><td>15.0〜19.94%</td><td>200万円</td><td>即日</td><td>なし</td><td><span class="tag">中小</span></td></tr>
+        <tr><td class="label-col">スカイオフィス</td><td>15.0〜20.0%</td><td>50万円</td><td>最短30分</td><td>なし</td><td><span class="tag">中小</span></td></tr>
+        <tr><td class="label-col">アルコシステム</td><td>15.0〜20.0%</td><td>50万円</td><td>最短30分</td><td>なし</td><td><span class="tag">中小</span></td></tr>
+        <tr><td class="label-col">デイリープランニング</td><td>7.3〜18.0%</td><td>300万円</td><td>即日</td><td>なし</td><td><span class="tag">中小</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>※金利・条件は変更になる場合があります。必ず各社公式サイトでご確認ください。</p>
+
+  <h2 id="major">大手4社の特徴と強み</h2>
+  <p>大手消費者金融はSMBCグループ・三菱UFJグループなど銀行系列の信頼性と、業界最速レベルの審査スピードが強みです。</p>
+
+  <div class="company-card">
+    <div class="company-card-header"><span class="company-card-num">1</span>プロミス（SMBCコンシューマーファイナンス）</div>
+    <div class="company-card-body">
+      <div class="company-card-tags"><span class="tag">最短3分融資</span><span class="tag">30日無利息</span><span class="tag">SMBCグループ</span></div>
+      <div class="spec-mini">
+        <div class="spec-mini-item"><div class="spec-mini-label">金利</div><div class="spec-mini-value">4.5〜17.8%</div></div>
+        <div class="spec-mini-item"><div class="spec-mini-label">限度額</div><div class="spec-mini-value">最大500万円</div></div>
+      </div>
+      <div class="company-card-desc">SMBCグループのプロミスは業界最速クラスの審査スピードが魅力。初回利用なら30日間無利息で試せます。郵送物なし・在籍確認電話なしにも対応。</div>
+      <a href="https://www.promise.co.jp/" class="detail-link" target="_blank" rel="noopener">プロミス公式サイトを見る ›</a>
+    </div>
+  </div>
+
+  <div class="company-card">
+    <div class="company-card-header"><span class="company-card-num">2</span>アコム（三菱UFJフィナンシャル・グループ）</div>
+    <div class="company-card-body">
+      <div class="company-card-tags"><span class="tag">最短20分融資</span><span class="tag">30日無利息</span><span class="tag">MUFGグループ</span></div>
+      <div class="spec-mini">
+        <div class="spec-mini-item"><div class="spec-mini-label">金利</div><div class="spec-mini-value">3.0〜18.0%</div></div>
+        <div class="spec-mini-item"><div class="spec-mini-label">限度額</div><div class="spec-mini-value">最大800万円</div></div>
+      </div>
+      <div class="company-card-desc">三菱UFJグループの安心感。限度額800万円まで対応でき、自動契約機（むじんくん）でその場でカード発行も可能。初回30日無利息あり。</div>
+      <a href="https://www.acom.co.jp/" class="detail-link" target="_blank" rel="noopener">アコム公式サイトを見る ›</a>
+    </div>
+  </div>
+
+  <div class="company-card">
+    <div class="company-card-header"><span class="company-card-num">3</span>アイフル</div>
+    <div class="company-card-body">
+      <div class="company-card-tags"><span class="tag">最短18分融資</span><span class="tag">30日無利息</span><span class="tag">独立系大手</span></div>
+      <div class="spec-mini">
+        <div class="spec-mini-item"><div class="spec-mini-label">金利</div><div class="spec-mini-value">3.0〜18.0%</div></div>
+        <div class="spec-mini-item"><div class="spec-mini-label">限度額</div><div class="spec-mini-value">最大800万円</div></div>
+      </div>
+      <div class="company-card-desc">独立系大手として独自審査を実施。スマホアプリでの管理が使いやすく、在籍確認なしにも対応。女性向けサービス「SuLaLi」も展開。</div>
+      <a href="https://www.aiful.co.jp/" class="detail-link" target="_blank" rel="noopener">アイフル公式サイトを見る ›</a>
+    </div>
+  </div>
+
+  <div class="company-card">
+    <div class="company-card-header"><span class="company-card-num">4</span>SMBCモビット</div>
+    <div class="company-card-body">
+      <div class="company-card-tags"><span class="tag">最短15秒審査</span><span class="tag">Web完結</span><span class="tag">SMBCグループ</span></div>
+      <div class="spec-mini">
+        <div class="spec-mini-item"><div class="spec-mini-label">金利</div><div class="spec-mini-value">3.0〜18.0%</div></div>
+        <div class="spec-mini-item"><div class="spec-mini-label">限度額</div><div class="spec-mini-value">最大800万円</div></div>
+      </div>
+      <div class="company-card-desc">SMBCグループのモビットはWeb完結でカード発行不要。審査結果が最短15秒と業界最速レベル。無利息期間はないが、金利は大手水準で安心。</div>
+      <a href="https://www.mobit.ne.jp/" class="detail-link" target="_blank" rel="noopener">SMBCモビット公式サイトを見る ›</a>
+    </div>
+  </div>
+
+  <h2 id="minor">中小消費者金融7社の特徴と強み</h2>
+  <p>中小消費者金融は「独自審査」が最大の特徴です。大手のスコアリングでは通りにくい方でも、現在の返済能力を重視した柔軟な審査が受けられます。</p>
+
+  <div class="company-card">
+    <div class="company-card-header"><span class="company-card-num">1</span>セントラル</div>
+    <div class="company-card-body">
+      <div class="company-card-tags"><span class="tag">創業1973年</span><span class="tag">30日無利息</span><span class="tag">即日融資</span></div>
+      <div class="spec-mini">
+        <div class="spec-mini-item"><div class="spec-mini-label">金利</div><div class="spec-mini-value">4.8〜18.0%</div></div>
+        <div class="spec-mini-item"><div class="spec-mini-label">限度額</div><div class="spec-mini-value">最大300万円</div></div>
+      </div>
+      <div class="company-card-desc">1973年創業の老舗中小消費者金融。セブン銀行ATMが使えるため全国で利用しやすい。30日無利息と即日融資に対応。</div>
+      <a href="https://www.c-central.co.jp/" class="detail-link" target="_blank" rel="noopener">セントラル公式サイトを見る ›</a>
+    </div>
+  </div>
+
+  <div class="company-card">
+    <div class="company-card-header"><span class="company-card-num">2</span>フタバ</div>
+    <div class="company-card-body">
+      <div class="company-card-tags"><span class="tag">創業1955年</span><span class="tag">30日無利息</span><span class="tag">女性向けサービスあり</span></div>
+      <div class="spec-mini">
+        <div class="spec-mini-item"><div class="spec-mini-label">金利</div><div class="spec-mini-value">14.959〜19.945%</div></div>
+        <div class="spec-mini-item"><div class="spec-mini-label">限度額</div><div class="spec-mini-value">最大50万円</div></div>
+      </div>
+      <div class="company-card-desc">70年以上の歴史を持つ老舗。他社借入4社以内なら審査対象。女性専用の「レディースフタバ」もあり、女性スタッフが対応。</div>
+      <a href="https://www.futaba-cs.co.jp/" class="detail-link" target="_blank" rel="noopener">フタバ公式サイトを見る ›</a>
+    </div>
+  </div>
+
+  <div class="company-card">
+    <div class="company-card-header"><span class="company-card-num">3</span>フクホー</div>
+    <div class="company-card-body">
+      <div class="company-card-tags"><span class="tag">加点方式審査</span><span class="tag">柔軟な審査</span><span class="tag">貸金業登録済</span></div>
+      <div class="spec-mini">
+        <div class="spec-mini-item"><div class="spec-mini-label">金利</div><div class="spec-mini-value">7.3〜18.0%</div></div>
+        <div class="spec-mini-item"><div class="spec-mini-label">限度額</div><div class="spec-mini-value">最大200万円</div></div>
+      </div>
+      <div class="company-card-desc">信用情報の問題で自動審査落ちしない「加点方式」が特徴。現在の収入や返済状況を総合的に判断するため、大手で断られた方の選択肢になりやすい。</div>
+      <a href="https://www.fukuho.com/" class="detail-link" target="_blank" rel="noopener">フクホー公式サイトを見る ›</a>
+    </div>
+  </div>
+
+  <div class="company-card">
+    <div class="company-card-header"><span class="company-card-num">4</span>アロー</div>
+    <div class="company-card-body">
+      <div class="company-card-tags"><span class="tag">原則在籍確認なし</span><span class="tag">Web完結</span><span class="tag">郵送物なし</span></div>
+      <div class="spec-mini">
+        <div class="spec-mini-item"><div class="spec-mini-label">金利</div><div class="spec-mini-value">15.0〜19.94%</div></div>
+        <div class="spec-mini-item"><div class="spec-mini-label">限度額</div><div class="spec-mini-value">最大200万円</div></div>
+      </div>
+      <div class="company-card-desc">原則として在籍確認の電話をしないため、職場に借り入れがバレにくい。Web完結・郵送物なしでプライバシーを徹底保護。</div>
+      <a href="https://www.arrow.ne.jp/" class="detail-link" target="_blank" rel="noopener">アロー公式サイトを見る ›</a>
+    </div>
+  </div>
+
+  <div class="company-card">
+    <div class="company-card-header"><span class="company-card-num">5</span>スカイオフィス</div>
+    <div class="company-card-body">
+      <div class="company-card-tags"><span class="tag">最短30分審査</span><span class="tag">アルバイトOK</span><span class="tag">貸金業協会加盟</span></div>
+      <div class="spec-mini">
+        <div class="spec-mini-item"><div class="spec-mini-label">金利</div><div class="spec-mini-value">15.0〜20.0%</div></div>
+        <div class="spec-mini-item"><div class="spec-mini-label">限度額</div><div class="spec-mini-value">最大50万円</div></div>
+      </div>
+      <div class="company-card-desc">福岡拠点だが全国対応。アルバイトや派遣でも審査対象。最短30分のスピード審査で即日融資も可能。金融庁・日本貸金業協会の正規登録業者。</div>
+      <a href="https://www.skyoffice-loan.jp/" class="detail-link" target="_blank" rel="noopener">スカイオフィス公式サイトを見る ›</a>
+    </div>
+  </div>
+
+  <div class="company-card">
+    <div class="company-card-header"><span class="company-card-num">6</span>アルコシステム</div>
+    <div class="company-card-body">
+      <div class="company-card-tags"><span class="tag">創業1983年</span><span class="tag">最短30分</span><span class="tag">金融庁登録済</span></div>
+      <div class="spec-mini">
+        <div class="spec-mini-item"><div class="spec-mini-label">金利</div><div class="spec-mini-value">15.0〜20.0%</div></div>
+        <div class="spec-mini-item"><div class="spec-mini-label">限度額</div><div class="spec-mini-value">最大50万円</div></div>
+      </div>
+      <div class="company-card-desc">1983年創業で金融庁登録を13回更新している老舗。初回融資は9.9万円が目安で少額からスタートしやすい。郵送物なしのWeb完結に対応。</div>
+      <a href="https://www.alcosystem.co.jp/" class="detail-link" target="_blank" rel="noopener">アルコシステム公式サイトを見る ›</a>
+    </div>
+  </div>
+
+  <div class="company-card">
+    <div class="company-card-header"><span class="company-card-num">7</span>デイリープランニング（デイリーキャッシング）</div>
+    <div class="company-card-body">
+      <div class="company-card-tags"><span class="tag">複数ローン商品</span><span class="tag">貸金業協会加盟</span><span class="tag">即日融資</span></div>
+      <div class="spec-mini">
+        <div class="spec-mini-item"><div class="spec-mini-label">金利</div><div class="spec-mini-value">7.3〜18.0%</div></div>
+        <div class="spec-mini-item"><div class="spec-mini-label">限度額</div><div class="spec-mini-value">最大300万円</div></div>
+      </div>
+      <div class="company-card-desc">フリーローン・おまとめローン・不動産担保ローン・ビジネスローンと幅広い商品ラインナップ。東京都知事登録・日本貸金業協会加盟の正規業者。</div>
+      <a href="https://www.daily-p.co.jp/" class="detail-link" target="_blank" rel="noopener">デイリープランニング公式サイトを見る ›</a>
+    </div>
+  </div>
+
+  <h2 id="target">あなたの状況別おすすめの選び方</h2>
+
+  <h3>はじめてカードローンを利用する方</h3>
+  <p>大手4社（プロミス・アコム・アイフル・SMBCモビット）がおすすめです。無利息期間が充実しており、万が一のトラブル時も安心のサポート体制があります。</p>
+
+  <h3>審査に不安がある方・大手で断られた方</h3>
+  <p>中小消費者金融の独自審査を検討しましょう。フクホーの加点方式やフタバ・セントラルの柔軟な審査は、現在の返済能力を重視するため、過去の信用情報に問題がある方にも対応できる場合があります。</p>
+
+  <h3>会社にバレたくない方</h3>
+  <p>アローは原則として在籍確認の電話をしないため、職場への連絡を避けたい方に向いています。</p>
+
+  <h3>急ぎでお金が必要な方</h3>
+  <p>プロミス（最短3分）・SMBCモビット（最短15秒審査）・スカイオフィス（最短30分）など即日融資に対応した業者を選びましょう。</p>
+
+  <h2 id="caution">申し込み前に必ず確認する注意点</h2>
+
+  <div class="warn-box">
+    <strong>⚠️ 多重申し込みに注意（申し込みブラック）</strong>
+    短期間に複数社へ同時申し込みをすると、信用情報に申し込み記録が残り、審査が不利になる「申し込みブラック」状態になります。まず1〜2社に絞って申し込みましょう。
+  </div>
+
+  <div class="check-list">
+    <div class="check-list-title">申し込み前チェックリスト</div>
+    <div class="check-item"><span class="check-num">1</span><span>他社借入の合計が年収の3分の1以下か（総量規制）</span></div>
+    <div class="check-item"><span class="check-num">2</span><span>現在の借入件数が多すぎないか（目安：4社以内）</span></div>
+    <div class="check-item"><span class="check-num">3</span><span>返済遅延・延滞の記録がないか</span></div>
+    <div class="check-item"><span class="check-num">4</span><span>安定した収入があるか（アルバイト・派遣でも可の場合あり）</span></div>
+    <div class="check-item"><span class="check-num">5</span><span>金融庁登録の正規業者かを確認したか</span></div>
+  </div>
+
+  <div class="cta-section">
+    <h2>クレジットカードも比較してみませんか？</h2>
+    <p>5問に答えるだけ！あなたに<br>ぴったりのクレカを無料で診断</p>
+    <a href="index.html" class="btn-orange">無料で診断する ›</a>
+  </div>
+</div>
+<footer class="site-footer">Copyright &copy; 2026 クレカ診断 All Rights Reserved</footer>
+<script>
+function toggleMenu(){document.getElementById("nav-drawer").classList.toggle("open");document.getElementById("nav-overlay").classList.toggle("open");document.querySelector(".hamburger").classList.toggle("open");}
+function closeMenu(){document.getElementById("nav-drawer").classList.remove("open");document.getElementById("nav-overlay").classList.remove("open");document.querySelector(".hamburger").classList.remove("open");}
+</script></body></html>
