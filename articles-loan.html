@@ -172,24 +172,34 @@
     .article-card {
       background: var(--white);
       border-radius: var(--radius);
-      padding: 0;
-      overflow: hidden;
+      padding: 12px;
+      margin-bottom: 10px;
       box-shadow: 0 2px 8px rgba(26,79,160,0.07);
       text-decoration: none;
       color: inherit;
       display: flex;
-      flex-direction: column;
+      gap: 12px;
+      align-items: flex-start;
       transition: box-shadow 0.2s;
     }
     .article-card:hover { box-shadow: 0 4px 16px rgba(26,79,160,0.13); }
-    .article-card-img { width:100%; aspect-ratio:4/3; object-fit:cover; display:block; }
-    .article-card-body { flex:1; padding:10px; display:flex; flex-direction:column; }
+    .article-card-img { width:80px; height:80px; border-radius:8px; object-fit:cover; flex-shrink:0; }
+    .article-card-body { flex:1; min-width:0; }
     .article-meta {
       display: flex;
       align-items: center;
       gap: 6px;
       margin-bottom: 6px;
     }
+    /* 記事一覧グリッド内は縦型 */
+    .article-grid .article-card {
+      flex-direction: column;
+      padding: 0;
+      overflow: hidden;
+      margin-bottom: 0;
+    }
+    .article-grid .article-card-img { width:100%; height:auto; aspect-ratio:4/3; border-radius:0; }
+    .article-grid .article-card-body { padding:10px; display:flex; flex-direction:column; }
     .article-tag {
       background: var(--blue-light);
       color: var(--blue);
