@@ -255,6 +255,10 @@
       padding: 16px;
       margin-top: 32px;
     }
+    .article-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .article-grid .article-card { flex-direction:column; padding:0; overflow:hidden; margin-bottom:0; }
+    .article-grid .article-card-img { width:100%; height:auto; aspect-ratio:4/3; border-radius:0; }
+    .article-grid .article-card-body { padding:10px; display:flex; flex-direction:column; }
   </style>
 </head>
 <body>
@@ -366,19 +370,24 @@
 <!-- CTA -->
 
   <div class="section-label" style="margin-top:24px;">記事一覧</div>
-<div class="article-grid">
+  <div class="article-grid">
   <a href="article-card-04.html" class="article-card">
     <img src="img/article-card-04.jpg" alt="旅行好きにおすすめのクレカは？" class="article-card-img">
     <div class="article-card-body">
-    <div class="article-meta">
-      <span class="article-tag">ライフスタイル</span>
-    </div>
-    <div class="article-title">海外旅行保険付きカードを比較</div>
+    <div class="article-meta"><span class="article-tag">ライフスタイル</span></div>
+    <div class="article-title">旅行好きにおすすめのクレカは？海外旅行保険付きカードを比較</div>
     <div class="article-arrow">続きを読む ›</div>
     </div>
   </a>
-
-</div>
+  <a href="card-epos.html" class="article-card">
+    <img src="img/epos-card.png" alt="エポスカードの評判・口コミ" class="article-card-img">
+    <div class="article-card-body">
+    <div class="article-meta"><span class="article-tag">個別解説</span></div>
+    <div class="article-title">エポスカードの評判・口コミ</div>
+    <div class="article-arrow">続きを読む ›</div>
+    </div>
+  </a>
+  </div>
 
 
 <footer class="site-footer">Copyright &copy; 2026 クレカ診断 All Rights Reserved</footer>
