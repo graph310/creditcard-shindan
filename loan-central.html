@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>セントラルの評判・口コミ｜金利・審査・セブン銀行ATMを徹底解説 | クレカ診断</title>
+  <meta name="description" content="セントラルの金利・審査・即日融資・セブン銀行ATMを解説。1973年創業の老舗消費者金融の特徴をまとめました。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #1a4fa0;
+      --blue-light: #f0f4fb;
+      --blue-mid: #dde6f5;
+      --orange: #f5a623;
+      --orange-text: #ffffff;
+      --text-dark: #1a2a4a;
+      --text-mid: #2a4a7a;
+      --text-muted: #6a7fa0;
+      --white: #ffffff;
+      --radius: 12px;
+      --radius-pill: 30px;
+    }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--white);
+      color: var(--text-dark);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 40px;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      background: var(--blue);
+      color: var(--white);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-logo {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 18px; font-weight: 700;
+      text-decoration: none; color: #fff;
+    }
+    .header-logo svg { width: 22px; height: 22px; }
+    .header-badge {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px; padding: 4px 12px;
+      font-size: 11px; white-space: nowrap;
+      color: #fff; text-decoration: none;
+    }
+
+    /* ===== HAMBURGER ===== */
+    .hamburger {
+      background: none; border: none; cursor: pointer;
+      padding: 4px; display: flex; flex-direction: column;
+      gap: 5px; z-index: 201;
+    }
+    .hamburger span { display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; transition: all 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .nav-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 199; }
+    .nav-overlay.open { display: block; }
+    .nav-drawer { position: fixed; top: 0; right: -280px; width: 260px; height: 100%; background: #fff; z-index: 200; transition: right 0.3s ease; box-shadow: -4px 0 20px rgba(0,0,0,0.15); overflow-y: auto; }
+    .nav-drawer.open { right: 0; }
+    .nav-drawer-header { background: var(--blue); color: #fff; padding: 16px 20px; font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .nav-menu { padding: 8px 0; }
+    .nav-item { display: block; padding: 14px 20px; font-size: 14px; font-weight: 500; color: var(--text-dark); text-decoration: none; border-bottom: 1px solid var(--blue-light); transition: background 0.15s; }
+    .nav-item:hover { background: var(--blue-light); }
+    .nav-item.active { color: var(--blue); font-weight: 700; }
+    .nav-category { padding: 12px 20px 4px; font-size: 11px; font-weight: 700; color: var(--text-muted); }
+    .nav-sub-item { display: block; padding: 11px 20px 11px 32px; font-size: 13px; color: var(--text-mid); text-decoration: none; border-bottom: 1px solid var(--blue-light); transition: background 0.15s; }
+    .nav-sub-item:hover { background: var(--blue-light); }
+    .nav-sub-item.active { color: var(--blue); font-weight: 700; }
+    .nav-sub-item::before { content: '└ '; color: var(--text-muted); }
+
+    /* ===== BREADCRUMB ===== */
+    .breadcrumb { padding: 10px 16px; font-size: 11px; color: var(--text-muted); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+    .breadcrumb a { color: var(--blue); text-decoration: none; }
+    .breadcrumb span { opacity: 0.5; }
+
+    /* ===== ARTICLE HEADER ===== */
+    .article-header { background: var(--white); padding: 20px 16px 12px; margin-bottom: 0; }
+    .article-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+    .article-tag { background: var(--blue-light); color: var(--blue); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+    .article-date { font-size: 11px; color: var(--text-muted); }
+    .article-title { font-size: 20px; font-weight: 700; line-height: 1.5; color: var(--text-dark); margin-bottom: 12px; }
+    .article-lead { font-size: 13px; color: var(--text-mid); line-height: 1.8; padding: 14px; background: var(--blue-light); border-radius: 8px; border-left: none; }
+
+    /* ===== ARTICLE BODY ===== */
+    .article-body { padding: 0 16px; }
+    .article-body h2 {
+      font-size: 17px; font-weight: 700; color: var(--text-dark);
+      background: none;
+      border-bottom: none;
+      border-left: 4px solid var(--blue);
+      padding: 2px 0 2px 12px;
+      margin: 28px 0 14px;
+      line-height: 1.4;
+    }
+    .article-body h3 {
+      font-size: 15px; font-weight: 700; color: var(--blue);
+      border-left: 3px solid var(--blue);
+      padding-left: 10px; margin: 20px 0 10px;
+    }
+    .article-body p { font-size: 14px; line-height: 1.9; color: var(--text-mid); margin-bottom: 14px; }
+    .article-body ul { padding-left: 0; margin-bottom: 14px; list-style: none; }
+    .article-body ul li { font-size: 14px; line-height: 1.8; color: var(--text-mid); padding: 4px 0 4px 18px; position: relative; }
+    .article-body ul li::before { content: '✅ '; position: absolute; left: 0; }
+
+    /* ===== CARD BOX ===== */
+    .card-box {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(26,79,160,0.09);
+      margin: 16px 0;
+    }
+    .card-box-header {
+      background: var(--orange);
+      color: var(--orange-text);
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .card-box-body { padding: 16px; }
+    .card-box-name { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .card-box-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .tag { background: var(--blue-light); color: var(--blue); border: 1px solid var(--blue-mid); border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 500; }
+    .card-box-img { width: 90%; max-width: 288px; margin: 0 auto 14px; border-radius: 10px; display: block; }
+    .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+    .spec-item { background: var(--blue-light); border-radius: 8px; padding: 10px 12px; }
+    .spec-label { font-size: 10px; color: var(--text-muted); margin-bottom: 2px; }
+    .spec-value { font-size: 13px; font-weight: 700; }
+    .card-box-desc { font-size: 13px; color: var(--text-mid); line-height: 1.8; margin-bottom: 14px; }
+    .btn-orange {
+      display: block; width: 100%; background: var(--orange); color: var(--orange-text);
+      border: none; border-radius: var(--radius-pill); padding: 14px;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      font-family: 'Noto Sans JP', sans-serif; text-align: center;
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .btn-orange:hover { opacity: 0.88; }
+
+    /* ===== SUMMARY TABLE ===== */
+    .summary-table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: 0 2px 8px rgba(26,79,160,0.07); margin: 16px 0; border: 1.5px solid var(--blue-mid); }
+    .summary-table th { background: var(--blue); color: #fff; padding: 10px 12px; text-align: left; font-size: 12px; }
+    .summary-table td { padding: 10px 12px; border-bottom: 1px solid var(--blue-mid); color: var(--text-mid); vertical-align: middle; }
+    .summary-table tr:last-child td { border-bottom: none; }
+    .summary-table tr:nth-child(even) td { background: #f8faff; }
+
+    /* ===== CTA ===== */
+    .cta-section { background: var(--blue); border-radius: var(--radius); padding: 20px; text-align: center; color: var(--white); margin: 24px 0 0; }
+    .cta-section h2 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .cta-section p { font-size: 12px; opacity: 0.85; margin-bottom: 14px; line-height: 1.6; }
+    .btn-orange-inline {
+      display: inline-block; background: var(--orange); color: var(--orange-text);
+      border-radius: var(--radius-pill); padding: 13px 28px;
+      font-size: 14px; font-weight: 700; text-decoration: none; transition: opacity 0.2s;
+    }
+    .btn-orange-inline:hover { opacity: 0.88; }
+
+    /* ===== FOOTER ===== */
+    .site-footer { background: var(--text-dark); color: rgba(255,255,255,0.5); text-align: center; font-size: 11px; padding: 16px; margin-top: 32px; }
+
+    /* ===== AD DISCLOSURE ===== */
+    .ad-disclosure { background: none; border: none; padding: 4px 0; font-size: 11px; color: var(--text-muted); line-height: 1.6; margin: 8px 0; }
+  </style>
+  <style>
+  .comp-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:16px 0;border-radius:12px;}
+  .comp-table{border-collapse:collapse;min-width:400px;width:100%;background:#fff;font-size:12px;box-shadow:0 2px 12px rgba(26,79,160,0.08);}
+  .comp-table th{background:#1a4fa0;color:#fff;padding:10px;text-align:left;font-size:12px;font-weight:700;}
+  .comp-table td{padding:10px;border-bottom:1px solid #dde6f5;font-size:13px;color:#2a4a7a;vertical-align:middle;line-height:1.5;}
+  .comp-table tr:last-child td{border-bottom:none;}
+  .comp-table tr:nth-child(even) td{background:#f8faff;}
+  .comp-table .label{background:#f0f4fb;color:#1a4fa0;font-weight:700;width:40%;}
+  .check-list{background:#fff;border-radius:12px;padding:16px;margin:16px 0;box-shadow:0 2px 8px rgba(26,79,160,0.07);}
+  .check-list-title{font-size:14px;font-weight:700;color:#1a2a4a;margin-bottom:12px;}
+  .check-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #dde6f5;font-size:13px;color:#2a4a7a;line-height:1.7;}
+  .check-item:last-child{border-bottom:none;}
+  .check-num{background:#1a4fa0;color:#fff;font-size:11px;font-weight:700;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+  .warn-box{background:#fff8f0;border:1px solid #f5c060;border-radius:8px;padding:12px 14px;font-size:13px;color:#7a4a00;line-height:1.7;margin:16px 0;}
+  .warn-box strong{display:block;margin-bottom:4px;}
+  .toc{background:#fff;border:1px solid #dde6f5;border-radius:12px;padding:16px;margin:16px 0;}
+  .toc-title{font-size:13px;font-weight:700;color:#1a2a4a;margin-bottom:10px;}
+  .toc ol{padding-left:18px;}
+  .toc ol li{font-size:13px;color:#1a4fa0;line-height:1.9;}
+  .toc ol li a{color:#1a4fa0;text-decoration:none;}
+  .article-body a{color:#1a4fa0;}
+  .btn-apply{display:block;width:100%;background:#f5a623;color:#fff;border:none;border-radius:30px;padding:14px;font-size:14px;font-weight:700;text-align:center;text-decoration:none;margin:10px 0;transition:opacity 0.2s;}
+  .btn-apply:hover{opacity:0.88;}
+  .review-box{background:#fff;border-radius:12px;padding:16px;margin:16px 0;box-shadow:0 2px 8px rgba(26,79,160,0.07);border-left:4px solid #f5a623;}
+  .review-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+  .review-stars{color:#f5a623;font-size:16px;}
+  .review-attr{font-size:11px;color:#6a7fa0;}
+  .review-text{font-size:13px;color:#2a4a7a;line-height:1.8;}
+  .review-pending{background:#f8faff;border-radius:8px;padding:12px;font-size:12px;color:#6a7fa0;text-align:center;margin:16px 0;border:1px dashed #dde6f5;}
+  .faq-item{margin:12px 0;border-radius:8px;overflow:hidden;box-shadow:0 1px 6px rgba(26,79,160,0.07);}
+  .faq-q{background:#f0f4fb;padding:12px 14px;font-size:13px;font-weight:700;color:#1a4fa0;}
+  .faq-q::before{content:"Q. ";}
+  .faq-a{background:#fff;padding:12px 14px;font-size:13px;color:#2a4a7a;line-height:1.8;}
+  .faq-a::before{content:"A. ";font-weight:700;color:#1a4fa0;}
+  .note{font-size:11px;color:#6a7fa0;margin:8px 0 16px;line-height:1.6;}
+</style>
+</head>
+<body>
+<!-- NAV DRAWER -->
+<div class="nav-overlay" id="nav-overlay" onclick="closeMenu()"></div>
+<div class="nav-drawer" id="nav-drawer">
+  <div class="nav-drawer-header">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+    メニュー
+  </div>
+  <nav class="nav-menu">
+    <a href="index.html" class="nav-item">クレカ診断</a>
+    <a href="compare.html" class="nav-item">クレカ比較</a>
+    <div class="nav-category">マネー記事</div>
+    <a href="articles-card.html" class="nav-sub-item">クレジットカード</a>
+    <a href="articles-loan.html" class="nav-sub-item active">カードローン</a>
+  </nav>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <a href="index.html" class="header-logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+      <line x1="1" y1="10" x2="23" y2="10"></line>
+    </svg>
+    クレカ診断
+  </a>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="メニュー">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+<div class="breadcrumb"><a href="index.html">TOP</a><span>›</span><a href="articles-loan.html">カードローン記事</a><span>›</span><span>セントラルの評判・口コミ</span></div>
+<div class="article-header">
+  <div class="article-meta"><span class="article-tag">個別解説</span><span class="article-date">2026.05.07</span></div>
+  <h1 class="article-title">セントラルの評判・口コミ｜金利・審査・セブン銀行ATMを徹底解説</h1>
+  <img src="img/central-detail.jpg" alt="セントラルの評判・口コミ｜金利・審査・セブン銀行ATMを徹底解説" style="width:100%;border-radius:8px;margin:12px 0 14px;display:block;">
+  <div class="article-lead">1973年創業の老舗消費者金融・セントラル。セブン銀行ATMが全国で使え、30日無利息も備えた中小業者として信頼性が高い1社です。</div>
+</div>
+<div style="padding:0 16px;"><div class="ad-disclosure">#アフィリエイト広告 本記事にはアフィリエイトリンクが含まれています。</div></div>
+<div class="article-body">
+  <div class="toc">
+    <div class="toc-title">📋 この記事の目次</div>
+    <ol>
+      <li><a href="#spec">基本スペック</a></li>
+      <li><a href="#feature">特徴・強み</a></li>
+      <li><a href="#recommend">こんな人におすすめ</a></li>
+      <li><a href="#review">口コミ・評判</a></li>
+      <li><a href="#flow">申し込みの流れ</a></li>
+      <li><a href="#faq">よくある質問</a></li>
+    </ol>
+  </div>
+
+  <h2 id="spec">基本スペック</h2>
+  <a href="https://px.a8.net/svt/ejp?a8mat=4B3K2L+59BY8I+363I+699KI" target="_blank" rel="noopener nofollow"><img src="img/central.jpg" alt="セントラルの評判・口コミ｜金利・審査・セブン銀行ATMを徹底解説" style="width:90%;max-width:288px;margin:16px auto;border-radius:10px;display:block;"></a>
+  <div class="comp-table-wrap">
+    <table class="comp-table"><tbody><tr><td class="label">金利（実質年率）</td><td>4.8〜18.0%</td></tr><tr><td class="label">利用限度額</td><td>1万円〜300万円</td></tr><tr><td class="label">最短審査</td><td>即日</td></tr><tr><td class="label">無利息期間</td><td>初回30日間</td></tr><tr><td class="label">対象年齢</td><td>20歳〜</td></tr><tr><td class="label">設立</td><td>1973年</td></tr></tbody></table>
+  </div>
+  <p class="note">※金利・限度額・審査時間等の条件は変更になる場合があります。必ず公式サイトでご確認ください。</p>
+  <a href="https://px.a8.net/svt/ejp?a8mat=4B3K2L+59BY8I+363I+699KI" class="btn-apply" target="_blank" rel="noopener">公式サイトで詳細を確認する ›</a>
+
+  <h2 id="feature">特徴・強み</h2>
+  <div class="check-list"><div class="check-list-title">このカードローンの特徴</div><div class="check-item"><span class="check-num">1</span><span>1973年創業の老舗で信頼性が高い</span></div><div class="check-item"><span class="check-num">2</span><span>セブン銀行ATMが全国で使える</span></div><div class="check-item"><span class="check-num">3</span><span>初回30日間無利息</span></div><div class="check-item"><span class="check-num">4</span><span>独自審査で柔軟な対応</span></div><div class="check-item"><span class="check-num">5</span><span>即日振込に対応</span></div></div>
+
+  <h2 id="recommend">こんな人におすすめ</h2>
+  <div class="check-list"><div class="check-list-title">おすすめな方</div><div class="check-item"><span class="check-num">✓</span><span>大手に断られた方の次の選択肢として</span></div><div class="check-item"><span class="check-num">✓</span><span>セブン銀行ATMをよく使う方</span></div><div class="check-item"><span class="check-num">✓</span><span>老舗業者の安心感を求める方</span></div></div>
+  <a href="https://px.a8.net/svt/ejp?a8mat=4B3K2L+59BY8I+363I+699KI" class="btn-apply" target="_blank" rel="noopener">今すぐ申し込む ›</a>
+
+  <h2 id="review">口コミ・評判</h2>
+  <div class="review-pending">※現在口コミ収集中です。実際にご利用された方の体験談をお待ちしています。</div>
+
+  <h2 id="flow">申し込みの流れ</h2>
+  <div class="check-list">
+    <div class="check-list-title">最短即日申し込み</div>
+    <div class="check-item"><span class="check-num">1</span><span>公式サイトから申し込みフォームに入力</span></div>
+    <div class="check-item"><span class="check-num">2</span><span>本人確認書類をスマホで撮影・提出</span></div>
+    <div class="check-item"><span class="check-num">3</span><span>審査結果を待つ</span></div>
+    <div class="check-item"><span class="check-num">4</span><span>審査通過後、契約手続きを完了</span></div>
+    <div class="check-item"><span class="check-num">5</span><span>指定口座に振り込み</span></div>
+  </div>
+  <a href="https://px.a8.net/svt/ejp?a8mat=4B3K2L+59BY8I+363I+699KI" class="btn-apply" target="_blank" rel="noopener">今すぐ申し込む ›</a>
+
+  <h2 id="faq">よくある質問</h2>
+  <div class="faq-item"><div class="faq-q">中小消費者金融は安全ですか？</div><div class="faq-a">金融庁に正規登録された貸金業者です。貸金業法の上限金利（年20%以下）を守って営業しています。</div></div><div class="faq-item"><div class="faq-q">即日融資は確実ですか？</div><div class="faq-a">審査状況によっては翌日以降になる場合があります。早めの申し込みをおすすめします。</div></div>
+
+  <a href="index.html?start=quiz" style="display:block;width:100%;line-height:0;margin-top:24px;">
+    <img src="img/compare_fv_bg.png" alt="クレカ診断" style="width:100%;display:block;border-radius:12px;">
+  </a>
+</div>
+<footer class="site-footer">Copyright &copy; 2026 クレカ診断 All Rights Reserved</footer>
+<script>
+function toggleMenu() {
+  document.getElementById('nav-drawer').classList.toggle('open');
+  document.getElementById('nav-overlay').classList.toggle('open');
+  document.querySelector('.hamburger').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('nav-drawer').classList.remove('open');
+  document.getElementById('nav-overlay').classList.remove('open');
+  document.querySelector('.hamburger').classList.remove('open');
+}
+</script>
+</body></html>
