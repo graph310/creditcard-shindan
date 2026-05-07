@@ -167,20 +167,30 @@
     .article-card {
       background: var(--white);
       border-radius: var(--radius);
-      padding: 16px;
+      padding: 12px;
       margin-bottom: 10px;
       box-shadow: 0 2px 8px rgba(26,79,160,0.07);
       text-decoration: none;
       color: inherit;
-      display: block;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
       transition: box-shadow 0.2s;
     }
     .article-card:hover { box-shadow: 0 4px 16px rgba(26,79,160,0.13); }
+    .article-card-img {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .article-card-body { flex: 1; min-width: 0; }
     .article-meta {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .article-tag {
       background: var(--blue-light);
@@ -192,16 +202,17 @@
     }
     .article-date { font-size: 11px; color: var(--text-muted); }
     .article-title {
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--text-dark);
       line-height: 1.5;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     .article-desc {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
-      line-height: 1.6;
+      line-height: 1.5;
+      margin-bottom: 4px;
     }
     .article-arrow {
       text-align: right;
@@ -304,6 +315,8 @@
   <div class="section-label">新着記事</div>
 
   <a href="article-card-01.html" class="article-card">
+    <img src="img/article-card-01.jpg" alt="年会費無料クレジットカード6枚を徹底比較" class="article-card-img">
+    <div class="article-card-body">
     <div class="article-meta">
       <span class="article-tag">比較</span>
       <span class="article-date">2026.05.06</span>
@@ -311,9 +324,12 @@
     <div class="article-title">年会費無料クレジットカード6枚を徹底比較！あなたに合う1枚はどれ？</div>
     <div class="article-desc">エポス・ロフト・MUJI Card・三井住友NL・リクルート・Nexus Cardを還元率・特典・審査のしやすさで比較しました。</div>
     <div class="article-arrow">続きを読む ›</div>
+    </div>
   </a>
 
   <a href="article-card-02.html" class="article-card">
+    <img src="img/article-card-02.jpg" alt="コンビニでポイントが貯まるクレジットカード" class="article-card-img">
+    <div class="article-card-body">
     <div class="article-meta">
       <span class="article-tag">解説</span>
       <span class="article-date">2026.05.06</span>
@@ -321,9 +337,12 @@
     <div class="article-title">コンビニでポイントが貯まるクレジットカードはどれ？セブン・ファミマ・ローソン別に解説</div>
     <div class="article-desc">コンビニでお得に使えるカードを徹底解説。三井住友カード（NL）のタッチ決済で最大7%還元を活用しよう。</div>
     <div class="article-arrow">続きを読む ›</div>
+    </div>
   </a>
 
   <a href="article-card-03.html" class="article-card">
+    <img src="img/article-card-03.jpg" alt="クレジットカードの審査が不安な方へ" class="article-card-img">
+    <div class="article-card-body">
     <div class="article-meta">
       <span class="article-tag">初心者向け</span>
       <span class="article-date">2026.05.06</span>
@@ -331,9 +350,12 @@
     <div class="article-title">クレジットカードの審査が不安な方へ。デポジット型カードで作る方法</div>
     <div class="article-desc">過去に審査NGになった方でも作りやすいデポジット型クレジットカードの仕組みと申込方法を解説します。</div>
     <div class="article-arrow">続きを読む ›</div>
+    </div>
   </a>
 
   <a href="article-card-04.html" class="article-card">
+    <img src="img/article-card-04.jpg" alt="旅行好きにおすすめのクレジットカード" class="article-card-img">
+    <div class="article-card-body">
     <div class="article-meta">
       <span class="article-tag">ライフスタイル</span>
       <span class="article-date">2026.05.06</span>
@@ -341,6 +363,7 @@
     <div class="article-title">旅行好きにおすすめのクレジットカードは？海外旅行保険付きカードを比較</div>
     <div class="article-desc">海外旅行保険が付帯しているカードを比較。エポスカードは年会費無料で自動付帯に近い補償が魅力です。</div>
     <div class="article-arrow">続きを読む ›</div>
+    </div>
   </a>
 
 </div>
