@@ -167,20 +167,24 @@
     .article-card {
       background: var(--white);
       border-radius: var(--radius);
-      padding: 16px;
+      padding: 12px;
       margin-bottom: 10px;
       box-shadow: 0 2px 8px rgba(26,79,160,0.07);
       text-decoration: none;
       color: inherit;
-      display: block;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
       transition: box-shadow 0.2s;
     }
     .article-card:hover { box-shadow: 0 4px 16px rgba(26,79,160,0.13); }
+    .article-card-img { width:80px; height:80px; border-radius:8px; object-fit:cover; flex-shrink:0; }
+    .article-card-body { flex:1; min-width:0; }
     .article-meta {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .article-tag {
       background: var(--blue-light);
@@ -304,6 +308,8 @@
     <div class="section-label">新着記事</div>
 
   <a href="article-loan-01.html" class="article-card">
+    <img src="img/article-loan-01.jpg" alt="消費者金融11社を徹底比較" class="article-card-img">
+    <div class="article-card-body">
     <div class="article-meta">
       <span class="article-tag">比較</span>
       <span class="article-date">2026.05.06</span>
@@ -311,9 +317,12 @@
     <div class="article-title">消費者金融11社を徹底比較！大手4社と中小7社の違いと選び方のポイント【2026年最新】</div>
     <div class="article-desc">プロミス・アコム・アイフル・SMBCモビットの大手4社と中小消費者金融7社を金利・審査・融資スピードで徹底比較。比較表付きで選び方がすぐわかります。</div>
     <div class="article-arrow">続きを読む ›</div>
+    </div>
   </a>
 
   <a href="article-loan-02.html" class="article-card">
+    <img src="img/article-loan-02.jpg" alt="審査基準と成約率を上げるコツ" class="article-card-img">
+    <div class="article-card-body">
     <div class="article-meta">
       <span class="article-tag">審査・基礎知識</span>
       <span class="article-date">2026.05.06</span>
@@ -321,9 +330,12 @@
     <div class="article-title">消費者金融の審査基準は？大手と中小11社の審査傾向と成約率を上げるコツ【2026年最新】</div>
     <div class="article-desc">スコアリング審査と独自審査の違いを解説。総量規制・申し込みブラックなど、審査前に知っておくべき5つのチェックリストもご紹介。</div>
     <div class="article-arrow">続きを読む ›</div>
+    </div>
   </a>
 
   <a href="article-loan-03.html" class="article-card">
+    <img src="img/article-loan-03.jpg" alt="安心の消費者金融11選" class="article-card-img">
+    <div class="article-card-body">
     <div class="article-meta">
       <span class="article-tag">安全・信頼性</span>
       <span class="article-date">2026.05.06</span>
@@ -331,6 +343,7 @@
     <div class="article-title">【2026年最新】安心の消費者金融11選｜大手と中小の安全な見分け方</div>
     <div class="article-desc">貸金業登録番号の確認方法から、絶対に避けるべき闇金の特徴まで徹底解説。安心して利用できる正規業者の見分け方がわかります。</div>
     <div class="article-arrow">続きを読む ›</div>
+    </div>
   </a>
 
 <div class="cta-section">
