@@ -164,26 +164,30 @@
       background: var(--blue-mid);
     }
 
+    .article-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
     .article-card {
       background: var(--white);
       border-radius: var(--radius);
-      padding: 12px;
-      margin-bottom: 10px;
+      padding: 0;
+      overflow: hidden;
       box-shadow: 0 2px 8px rgba(26,79,160,0.07);
       text-decoration: none;
       color: inherit;
       display: flex;
-      gap: 12px;
-      align-items: flex-start;
+      flex-direction: column;
       transition: box-shadow 0.2s;
     }
     .article-card:hover { box-shadow: 0 4px 16px rgba(26,79,160,0.13); }
-    .article-card-img { width:80px; height:80px; border-radius:8px; object-fit:cover; flex-shrink:0; }
-    .article-card-body { flex:1; min-width:0; }
+    .article-card-img { width:100%; aspect-ratio:4/3; object-fit:cover; display:block; }
+    .article-card-body { flex:1; padding:10px; display:flex; flex-direction:column; }
     .article-meta {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       margin-bottom: 6px;
     }
     .article-tag {
@@ -207,13 +211,7 @@
       color: var(--text-muted);
       line-height: 1.6;
     }
-    .article-arrow {
-      text-align: right;
-      font-size: 12px;
-      color: var(--blue);
-      margin-top: 8px;
-      font-weight: 500;
-    }
+    .article-arrow { text-align: right; font-size: 11px; color: var(--blue); margin-top: auto; font-weight: 500; padding-top: 6px; }
 
     /* ===== CTA ===== */
     .cta-section {
@@ -306,6 +304,7 @@
 <!-- ARTICLE LIST -->
 <div class="article-section">
     <div class="section-label">おすすめの記事</div>
+<div class="article-grid">
 
   <a href="article-loan-01.html" class="article-card">
     <img src="img/article-loan-01.jpg" alt="消費者金融11社を徹底比較" class="article-card-img">
@@ -348,7 +347,6 @@
 
 
   <div class="section-label" style="margin-top:24px;">記事一覧</div>
-  <div class="section-label" style="font-size:11px;color:#6a7fa0;font-weight:500;padding-top:4px;">各社詳細・口コミ</div>
   <a href="loan-promise.html" class="article-card">
     <img src="img/promise-detail.jpg" alt="プロミスの評判・口コミ" class="article-card-img">
     <div class="article-card-body">
@@ -490,6 +488,7 @@
     </div>
   </a>
 
+</div>
 <div class="cta-section">
   <h2>どのカードか迷ったら</h2>
   <p>5問に答えるだけ！あなたに<br>ぴったりの1枚を無料で診断</p>
