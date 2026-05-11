@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>クレカ通過サポート診断 | 審査に通るカードが見つかる</title>
+  <meta name="description" content="12の質問に答えるだけで、あなたの状況に合ったクレジットカードと審査通過のアドバイスがわかる無料診断ツールです。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #1e88e5;
+      --blue-light: #f0f4fb;
+      --blue-mid: #dde6f5;
+      --orange: #f5a623;
+      --green: #1a8a4a;
+      --green-light: #f0faf4;
+      --red: #c0392b;
+      --red-light: #fff3f3;
+      --yellow: #f39c12;
+      --yellow-light: #fffbf0;
+      --text-dark: #1a2a4a;
+      --text-mid: #2a4a7a;
+      --text-muted: #6a7fa0;
+      --white: #ffffff;
+      --radius: 12px;
+      --radius-pill: 30px;
+    }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--blue-light);
+      color: var(--text-dark);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* HEADER */
+    .header {
+      background: var(--blue);
+      color: #fff;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-logo {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 16px; font-weight: 700;
+      text-decoration: none; color: #fff;
+    }
+    .header-logo svg { width: 20px; height: 20px; }
+    .header-badge {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px; padding: 4px 12px;
+      font-size: 11px; white-space: nowrap; color: #fff;
+    }
+
+    /* HERO */
+    .hero {
+      background: var(--blue);
+      color: #fff;
+      padding: 28px 20px 36px;
+      text-align: center;
+    }
+    .hero-badge {
+      background: var(--orange); color: #fff;
+      font-size: 11px; font-weight: 700;
+      padding: 4px 14px; border-radius: 20px;
+      display: inline-block; margin-bottom: 12px;
+    }
+    .hero h1 { font-size: 21px; font-weight: 700; line-height: 1.5; margin-bottom: 8px; }
+    .hero h1 span { color: var(--orange); }
+    .hero p { font-size: 13px; opacity: 0.85; line-height: 1.7; margin-bottom: 20px; }
+    .hero-points {
+      display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;
+    }
+    .hero-point {
+      background: rgba(255,255,255,0.15);
+      border-radius: 20px; padding: 5px 12px;
+      font-size: 12px;
+    }
+
+    /* PROGRESS */
+    .progress-wrap {
+      background: #fff; padding: 14px 20px 0;
+      border-bottom: 1px solid var(--blue-mid);
+    }
+    .progress-label {
+      display: flex; justify-content: space-between;
+      font-size: 12px; color: var(--blue); font-weight: 500; margin-bottom: 6px;
+    }
+    .progress-track {
+      background: var(--blue-mid); border-radius: 10px; height: 6px; overflow: hidden; margin-bottom: 14px;
+    }
+    .progress-fill {
+      background: var(--orange); height: 100%; border-radius: 10px; transition: width 0.4s ease;
+    }
+
+    /* QUIZ */
+    .quiz-area { padding: 20px 16px 40px; }
+    .question-card {
+      background: #fff; border-radius: var(--radius);
+      padding: 20px; box-shadow: 0 2px 12px rgba(30,136,229,0.08);
+      animation: fadeUp 0.3s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .q-step {
+      font-size: 11px; font-weight: 700; color: var(--blue);
+      background: var(--blue-light); padding: 3px 10px; border-radius: 20px;
+      display: inline-block; margin-bottom: 10px;
+    }
+    .q-category {
+      font-size: 11px; color: var(--text-muted); margin-bottom: 6px;
+    }
+    .q-text {
+      font-size: 16px; font-weight: 700; color: var(--text-dark);
+      line-height: 1.55; margin-bottom: 16px;
+    }
+    .q-note {
+      font-size: 11px; color: var(--text-muted); margin-bottom: 14px;
+      background: var(--blue-light); padding: 8px 12px; border-radius: 8px;
+      line-height: 1.6;
+    }
+
+    /* OPTIONS */
+    .options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+    .option-btn {
+      background: #fff; border: 1.5px solid var(--blue-mid);
+      border-radius: 10px; padding: 12px 14px;
+      text-align: left; cursor: pointer;
+      font-size: 13px; font-weight: 400;
+      color: var(--text-dark); font-family: 'Noto Sans JP', sans-serif;
+      transition: all 0.15s; display: flex; align-items: center; gap: 10px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .option-btn:hover { border-color: var(--blue); background: var(--blue-light); }
+    .option-btn.selected { border-color: var(--blue); background: var(--blue); color: #fff; }
+    .option-letter {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--blue-light); color: var(--blue);
+      font-size: 11px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: all 0.15s;
+    }
+    .option-btn.selected .option-letter { background: rgba(255,255,255,0.25); color: #fff; }
+
+    /* NEXT BTN */
+    .next-btn {
+      width: 100%; border: none; border-radius: var(--radius-pill);
+      padding: 14px; font-size: 15px; font-weight: 700;
+      cursor: pointer; font-family: 'Noto Sans JP', sans-serif;
+      background: var(--blue-mid); color: var(--text-muted);
+      transition: all 0.2s;
+    }
+    .next-btn.ready { background: var(--orange); color: #fff; }
+    .next-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* LOADING */
+    .loading-area { padding: 80px 20px; text-align: center; }
+    .spinner {
+      width: 44px; height: 44px;
+      border: 3px solid var(--blue-mid); border-top-color: var(--blue);
+      border-radius: 50%; animation: spin 0.8s linear infinite;
+      margin: 0 auto 20px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { color: var(--blue); font-weight: 600; font-size: 15px; }
+    .loading-sub { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+
+    /* RESULT */
+    .result-header {
+      background: var(--blue); color: #fff;
+      padding: 22px 20px; text-align: center;
+    }
+    .result-header h2 { font-size: 18px; font-weight: 700; }
+
+    .result-body { padding: 16px; }
+
+    /* ALERT BOXES */
+    .alert-section { margin-bottom: 16px; }
+    .alert-title {
+      font-size: 13px; font-weight: 700; color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .alert-box {
+      border-radius: 10px; padding: 14px;
+      margin-bottom: 8px; font-size: 13px; line-height: 1.7;
+    }
+    .alert-box.warn {
+      background: var(--yellow-light); border: 1.5px solid #f5c060; color: #7a4a00;
+    }
+    .alert-box.danger {
+      background: var(--red-light); border: 1.5px solid #f5a0a0; color: #a32d2d;
+    }
+    .alert-box.info {
+      background: var(--blue-light); border: 1.5px solid var(--blue-mid); color: var(--text-mid);
+    }
+    .alert-box.success {
+      background: var(--green-light); border: 1.5px solid #a0d4b4; color: #1a5a2a;
+    }
+    .alert-icon { font-size: 16px; margin-right: 6px; }
+    .alert-box strong { display: block; margin-bottom: 4px; font-size: 14px; }
+
+    /* RECOMMENDED CARD */
+    .rec-section { margin-bottom: 14px; }
+    .rec-main {
+      background: #fff; border-radius: var(--radius);
+      overflow: hidden; box-shadow: 0 4px 16px rgba(30,136,229,0.1);
+    }
+    .rec-header {
+      background: var(--orange); color: #fff;
+      padding: 10px 16px; font-size: 12px; font-weight: 700;
+    }
+    .rec-body { padding: 16px; }
+    .rec-name { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+    .rec-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .rec-tag {
+      background: var(--blue-light); color: var(--blue);
+      font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px;
+    }
+    .rec-img {
+      width: 90%; max-width: 288px; margin: 0 auto 14px;
+      border-radius: 10px; display: block;
+    }
+    .rec-reason {
+      background: var(--blue-light); border-left: 3px solid var(--blue);
+      border-radius: 0 8px 8px 0; padding: 10px 14px;
+      font-size: 13px; color: var(--text-mid); line-height: 1.7; margin-bottom: 14px;
+    }
+    .spec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+    .spec-item { background: #f8faff; border-radius: 8px; padding: 10px 12px; }
+    .spec-label { font-size: 10px; color: var(--text-muted); margin-bottom: 2px; }
+    .spec-value { font-size: 13px; font-weight: 700; }
+    .btn-orange {
+      display: block; width: 100%; background: var(--orange); color: #fff;
+      border: none; border-radius: var(--radius-pill); padding: 14px;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      font-family: 'Noto Sans JP', sans-serif; text-align: center;
+      text-decoration: none; transition: opacity 0.2s;
+    }
+    .btn-orange:hover { opacity: 0.88; }
+
+    /* SUB CARDS */
+    .sub-section { margin-bottom: 14px; }
+    .sub-label {
+      font-size: 12px; font-weight: 700; color: var(--text-muted);
+      margin-bottom: 8px; padding-top: 4px;
+    }
+    .sub-card {
+      background: #fff; border-radius: var(--radius);
+      border: 1.5px solid var(--blue-mid);
+      padding: 14px; margin-bottom: 8px;
+    }
+    .sub-card-name { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .sub-card-desc { font-size: 12px; color: var(--text-mid); line-height: 1.7; margin-bottom: 10px; }
+    .btn-outline {
+      display: block; width: 100%; background: #fff; color: var(--blue);
+      border: 1.5px solid var(--blue); border-radius: var(--radius-pill);
+      padding: 11px; font-size: 13px; font-weight: 700;
+      text-align: center; text-decoration: none; transition: opacity 0.2s;
+    }
+
+    /* NEXUS */
+    .nexus-box {
+      background: #fff; border-radius: var(--radius);
+      border: 1.5px solid var(--blue-mid); overflow: hidden; margin-bottom: 14px;
+    }
+    .nexus-header {
+      background: var(--blue-light); padding: 10px 16px;
+      font-size: 12px; font-weight: 700; color: var(--blue);
+      border-bottom: 1px solid var(--blue-mid);
+    }
+    .nexus-body { padding: 14px; }
+    .nexus-name { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .nexus-desc { font-size: 12px; color: var(--text-mid); line-height: 1.7; margin-bottom: 10px; }
+
+    .retry-btn {
+      display: block; width: 100%; background: #fff; color: var(--text-muted);
+      border: 1px solid var(--blue-mid); border-radius: var(--radius-pill);
+      padding: 12px; font-size: 13px; font-weight: 500;
+      text-align: center; cursor: pointer;
+      font-family: 'Noto Sans JP', sans-serif;
+    }
+
+    .site-footer {
+      background: var(--text-dark); color: rgba(255,255,255,0.5);
+      text-align: center; font-size: 11px; padding: 16px; margin-top: 8px;
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <a href="top.html" class="header-logo">あかりのお金ナビ</a>
+  <div class="header-badge">審査サポート</div>
+</header>
+
+<!-- SCREEN: TOP -->
+<div id="screen-top" class="screen active">
+  <div class="hero">
+    <div class="hero-badge">🛡 審査通過サポート</div>
+    <h1>クレカ<span>通過サポート</span>診断</h1>
+    <p>12の質問に答えるだけで、あなたの状況に合った<br>クレジットカードと審査通過のアドバイスがわかります。</p>
+    <div class="hero-points">
+      <div class="hero-point">🔍 審査アラート付き</div>
+      <div class="hero-point">💳 最適カード提案</div>
+      <div class="hero-point">🔒 登録不要・無料</div>
+    </div>
+    <button class="btn-orange" style="margin-top:24px;width:auto;padding:14px 32px;" onclick="startDiagnosis()">
+      無料で診断スタート ›
+    </button>
+  </div>
+  <div style="padding:20px 16px 32px;">
+    <div style="background:#fff;border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(30,136,229,0.07);">
+      <div style="font-size:13px;font-weight:700;color:var(--text-dark);margin-bottom:12px;">この診断でわかること</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--text-mid);">
+          <span style="color:var(--orange);font-weight:700;flex-shrink:0;">⚠️</span>
+          <span>総量規制・多重申込など、審査に影響するリスクのアドバイス</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--text-mid);">
+          <span style="color:var(--orange);font-weight:700;flex-shrink:0;">💳</span>
+          <span>あなたの状況・属性・利用傾向に合った最適なカードの提案</span>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--text-mid);">
+          <span style="color:var(--orange);font-weight:700;flex-shrink:0;">🛡</span>
+          <span>審査不安な方向けのデポジット型カード・BNPL情報</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN: QUIZ -->
+<div id="screen-quiz" class="screen">
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span id="progress-text">STEP 1 / 12</span>
+      <span id="progress-pct">8%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width:8%"></div>
+    </div>
+  </div>
+  <div class="quiz-area" id="quiz-area"></div>
+</div>
+
+<!-- SCREEN: LOADING -->
+<div id="screen-loading" class="screen">
+  <div class="loading-area">
+    <div class="spinner"></div>
+    <div class="loading-text">あなたの状況を分析中...</div>
+    <div class="loading-sub">審査アドバイスとおすすめカードを準備しています</div>
+  </div>
+</div>
+
+<!-- SCREEN: RESULT -->
+<div id="screen-result" class="screen">
+  <div class="result-header">
+    <h2>診断完了！</h2>
+  </div>
+  <div class="result-body">
+    <div id="rec-area" class="rec-section"></div>
+    <div id="alert-area" class="alert-section"></div>
+    <div id="sub-area" class="sub-section"></div>
+    <div id="nexus-area"></div>
+    <button class="retry-btn" onclick="retryDiagnosis()">↩ もう一度診断する</button>
+  </div>
+  <footer class="site-footer">Copyright &copy; 2026 クレカ診断 All Rights Reserved</footer>
+</div>
+
+<script>
+const questions = [
+  {
+    step: 'STEP 1', category: '利用目的',
+    q: 'クレジットカードを作りたい理由は？',
+    key: 'purpose',
+    options: [
+      { label: '普段の支払いをお得にしたい', value: 'cashback' },
+      { label: '審査が不安・作りやすいカードを探している', value: 'anxious' },
+      { label: 'ポイントを貯めたい', value: 'points' },
+      { label: 'ETC・旅行で使いたい', value: 'travel' },
+      { label: '後払い・資金管理目的', value: 'bnpl' },
+      { label: 'とにかく1枚作りたい', value: 'first' },
+      { label: '急ぎでお金を借りたい（カードローン）', value: 'loan' },
+    ]
+  },
+  {
+    step: 'STEP 2', category: '総量規制',
+    q: '現在、消費者金融やカードのキャッシング利用はありますか？',
+    key: 'borrowing',
+    options: [
+      { label: 'ない', value: 'none' },
+      { label: '少しある', value: 'some' },
+      { label: '年収の1/3に近い', value: 'near_limit' },
+      { label: 'よくわからない', value: 'unknown' },
+    ]
+  },
+  {
+    step: 'STEP 3', category: '多重申込',
+    q: '過去6ヶ月以内にクレカやローンへ複数申込しましたか？',
+    key: 'multi_apply',
+    options: [
+      { label: 'していない', value: 'none' },
+      { label: '1〜2件', value: 'few' },
+      { label: '3件以上', value: 'many' },
+    ]
+  },
+  {
+    step: 'STEP 4', category: '審査履歴',
+    q: '過去に審査落ちした経験はありますか？',
+    key: 'rejection',
+    options: [
+      { label: 'ない', value: 'none' },
+      { label: 'ある', value: 'yes' },
+      { label: '覚えていない', value: 'unknown' },
+    ]
+  },
+  {
+    step: 'STEP 5', category: '属性',
+    q: '現在の働き方に近いものは？',
+    key: 'employment',
+    options: [
+      { label: '正社員', value: 'fulltime' },
+      { label: '派遣・契約社員', value: 'contract' },
+      { label: 'パート・アルバイト', value: 'parttime' },
+      { label: 'フリーランス・自営業', value: 'freelance' },
+      { label: '学生', value: 'student' },
+      { label: '専業主婦・主夫', value: 'homemaker' },
+    ]
+  },
+  {
+    step: 'STEP 6', category: '年収',
+    q: '年収はどのくらいですか？',
+    key: 'income',
+    options: [
+      { label: '〜100万円', value: 'low' },
+      { label: '100〜300万円', value: 'mid_low' },
+      { label: '300〜500万円', value: 'mid' },
+      { label: '500万円以上', value: 'high' },
+    ]
+  },
+  {
+    step: 'STEP 7', category: '利用傾向',
+    q: '普段よく使うサービス・お店は？',
+    key: 'usage',
+    options: [
+      { label: 'コンビニ（セブン・ファミマ等）', value: 'convenience' },
+      { label: '楽天市場', value: 'rakuten' },
+      { label: 'Amazon', value: 'amazon' },
+      { label: 'Suica・交通系', value: 'transit' },
+      { label: 'イオン', value: 'aeon' },
+      { label: 'PayPay', value: 'paypay' },
+      { label: 'メルカリ', value: 'mercari' },
+      { label: '無印良品・ロフト', value: 'muji_loft' },
+    ]
+  },
+  {
+    step: 'STEP 8', category: '重視条件',
+    q: 'クレカで重視したいものは？',
+    key: 'priority',
+    options: [
+      { label: '年会費無料', value: 'free' },
+      { label: '還元率の高さ', value: 'cashback' },
+      { label: '審査の通りやすさ', value: 'easy_approval' },
+      { label: '即日発行', value: 'instant' },
+      { label: '旅行保険・海外対応', value: 'travel' },
+      { label: '後払い・BNPL', value: 'bnpl' },
+      { label: 'ETCカード', value: 'etc' },
+      { label: '即日融資（カードローン）', value: 'loan_instant' },
+    ]
+  },
+  {
+    step: 'STEP 9', category: 'キャッシング',
+    q: 'キャッシング枠は必要ですか？',
+    key: 'cashing',
+    options: [
+      { label: '必要', value: 'yes' },
+      { label: '不要', value: 'no' },
+      { label: 'わからない', value: 'unknown' },
+    ]
+  },
+  {
+    step: 'STEP 10', category: '支払い状況',
+    q: '現在、支払い遅延はありますか？',
+    key: 'delay',
+    options: [
+      { label: 'ない', value: 'none' },
+      { label: '過去にある（現在は完済）', value: 'past' },
+      { label: '現在ある', value: 'current' },
+      { label: 'わからない', value: 'unknown' },
+    ]
+  },
+  {
+    step: 'STEP 11', category: 'BNPL利用',
+    q: '後払いサービスを利用していますか？',
+    key: 'bnpl',
+    options: [
+      { label: '利用していない', value: 'none' },
+      { label: 'Paidy', value: 'paidy' },
+      { label: 'メルペイ', value: 'merpay' },
+      { label: 'バンドルカード', value: 'bundle' },
+      { label: 'NP後払い', value: 'np' },
+      { label: 'ワンバンクカード', value: 'onebank' },
+      { label: '複数利用している', value: 'multiple' },
+    ]
+  },
+  {
+    step: 'STEP 12', category: 'クレカ保有',
+    q: '現在クレジットカードを持っていますか？',
+    key: 'current_cards',
+    options: [
+      { label: '持っていない（初めて）', value: 'none' },
+      { label: '1枚', value: 'one' },
+      { label: '2〜3枚', value: 'few' },
+      { label: '4枚以上', value: 'many' },
+    ]
+  },
+];
+
+const loanCards = {
+  promise: {
+    name: 'プロミス', annual: '-', rate: '4.5〜17.8%',
+    point: 'Vポイント', brand: '-',
+    url: 'https://www.promise.co.jp/',
+    img: 'img/promise.jpg',
+    tags: ['最短3分審査', '30日無利息', 'SMBCグループ'],
+    desc: 'SMBCグループの大手消費者金融。最短3分審査・スマホATM対応で急ぎの方に。'
+  },
+  central: {
+    name: 'セントラル', annual: '-', rate: '4.8〜18.0%',
+    point: '-', brand: '-',
+    url: 'https://px.a8.net/svt/ejp?a8mat=4B3K2L+59BY8I+363I+699KI',
+    img: 'img/central.jpg',
+    tags: ['30日無利息', '即日振込', 'セブン銀行ATM対応'],
+    desc: '1973年創業の老舗。30日無利息・セブン銀行ATM対応で使いやすい。'
+  },
+  arrow: {
+    name: 'アロー', annual: '-', rate: '15.0〜19.94%',
+    point: '-', brand: '-',
+    url: 'https://px.a8.net/svt/ejp?a8mat=4B3K2L+5H2L3M+2SHI+5ZMCH',
+    img: 'img/arrow.jpg',
+    tags: ['在籍確認原則なし', '郵送物なし', 'Web完結'],
+    desc: '在籍確認の電話が原則なく、郵送物もなし。プライバシー重視の方に。'
+  },
+};
+
+const cards = {
+  smbc_nl: {
+    name: '三井住友カード（NL）',
+    annual: '永年無料', rate: '0.5%（コンビニ最大7%）',
+    point: 'Vポイント', brand: 'VISA / Mastercard',
+    url: 'https://www.smbc-card.com/',
+    img: 'img/mitsuinl-card.png',
+    tags: ['コンビニ最大7%還元', '両面ナンバーレス', '最短10秒審査'],
+    group: 'smbc'
+  },
+  recruit: {
+    name: 'リクルートカード',
+    annual: '永年無料', rate: '1.2%',
+    point: 'リクルートポイント', brand: 'VISA / Mastercard / JCB',
+    url: 'https://recruit-card.jp/',
+    img: 'img/recruit-card.png',
+    tags: ['還元率1.2%', 'Pontaポイント交換可', 'じゃらん・ホットペッパーでお得'],
+    group: 'recruit'
+  },
+  epos: {
+    name: 'エポスカード',
+    annual: '永年無料', rate: '0.5%〜',
+    point: 'エポスポイント', brand: 'VISA',
+    url: 'https://www.epos.co.jp/',
+    img: 'img/epos.jpg',
+    tags: ['海外旅行保険付き', '全国10,000店舗優待', 'マルイでお得'],
+    group: 'marui'
+  },
+  muji: {
+    name: 'MUJI Card',
+    annual: '永年無料', rate: '0.5%〜',
+    point: '永久不滅ポイント', brand: 'VISA',
+    url: 'https://www.muji.com/jp/mujicard/',
+    img: 'img/muji-card.png',
+    tags: ['無印良品でポイント3倍', '入会で1,000ポイント', '年会費無料'],
+    group: 'muji'
+  },
+  loft: {
+    name: 'ロフトカード',
+    annual: '永年無料', rate: '0.5%〜',
+    point: '永久不滅ポイント', brand: 'VISA / Mastercard',
+    url: 'https://www.saisoncard.co.jp/',
+    img: 'img/loft-card.png',
+    tags: ['ロフトで毎月末5%OFF', '永久不滅ポイント', '年会費無料'],
+    group: 'saison'
+  },
+  nexus: {
+    name: 'Nexus Card（デポジット型）',
+    annual: '要確認', rate: '0.5%',
+    point: '-', brand: 'VISA',
+    url: 'https://px.a8.net/svt/ejp?a8mat=4B3K2K+A5K9AQ+4T5W+5YJRM',
+    img: 'img/nexus-card.png',
+    tags: ['審査不安でも申込可', 'デポジット型', 'クレヒス構築に'],
+    group: 'nexus'
+  },
+};
+
+let answers = {};
+let currentQ = 0;
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function startDiagnosis() {
+  currentQ = 0; answers = {};
+  showScreen('screen-quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[currentQ];
+  const total = questions.length;
+  const pct = Math.round(((currentQ + 1) / total) * 100);
+  document.getElementById('progress-text').textContent = `${q.step} / ${total}`;
+  // STEP1は戻るボタン非表示
+  const backBtn = document.getElementById('back-btn');
+  if (backBtn) backBtn.style.display = currentQ === 0 ? 'none' : 'block';
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  const letters = ['A','B','C','D','E','F','G','H'];
+  let noteHtml = '';
+  let optHtml = q.options.map((opt, i) => `
+    <button class="option-btn" id="opt-${i}" onclick="selectOption(${i},'${opt.value}')">
+      <span class="option-letter">${letters[i]}</span>
+      <span>${opt.label}</span>
+    </button>`).join('');
+
+  document.getElementById('quiz-area').innerHTML = `
+    <div class="question-card">
+      <div class="q-step">${q.step}</div>
+      <div class="q-category">${q.category}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="options">${optHtml}</div>
+      <div style="display:flex;gap:8px;margin-bottom:0;">
+        <button id="back-btn" onclick="prevQuestion()" style="flex:1;border:1.5px solid var(--blue-mid);border-radius:var(--radius-pill);padding:13px;font-size:13px;font-weight:500;color:var(--text-muted);background:#fff;cursor:pointer;font-family:'Noto Sans JP',sans-serif;">‹ 戻る</button>
+        <button class="next-btn" id="next-btn" disabled onclick="nextQuestion()" style="flex:2;">
+        ${currentQ < total - 1 ? '次の質問へ ›' : '診断結果を見る ›'}
+        </button>
+      </div>
+    </div>`;
+}
+
+function selectOption(idx, value) {
+  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('opt-' + idx).classList.add('selected');
+  answers[questions[currentQ].key] = value;
+  const btn = document.getElementById('next-btn');
+  btn.disabled = false;
+  btn.classList.add('ready');
+}
+
+function prevQuestion() {
+  if (currentQ > 0) {
+    currentQ--;
+    renderQuestion();
+    // 前の回答を復元
+    const prevKey = questions[currentQ].key;
+    const prevVal = answers[prevKey];
+    if (prevVal) {
+      const idx = questions[currentQ].options.findIndex(o => o.value === prevVal);
+      if (idx >= 0) {
+        document.getElementById('opt-' + idx).classList.add('selected');
+        const btn = document.getElementById('next-btn');
+        btn.disabled = false;
+        btn.classList.add('ready');
+      }
+    }
+  }
+}
+
+function nextQuestion() {
+  if (currentQ < questions.length - 1) {
+    currentQ++;
+    renderQuestion();
+  } else {
+    showScreen('screen-loading');
+    diagnose();
+  }
+}
+
+// ===== 診断ロジック =====
+function calcAlerts(a) {
+  const alerts = [];
+
+  // 総量規制アラート
+  if (a.borrowing === 'near_limit') {
+    alerts.push({ type: 'warn', icon: '⚠️', title: '総量規制に近づいています', text: '総量規制対象の借入が年収の1/3に近づいています。キャッシング枠の新規申込は慎重に検討しましょう。ショッピング枠中心のカードや、後払い系サービスも選択肢になる場合があります。' });
+  }
+  if (a.borrowing === 'unknown') {
+    alerts.push({ type: 'info', icon: '💡', title: '借入状況の確認をおすすめします', text: '現在の借入合計が年収の1/3を超えている場合、消費者金融やキャッシング枠の審査が通りにくくなります。まず現在の借入残高を確認してみましょう。' });
+  }
+
+  // 多重申込アラート
+  if (a.multi_apply === 'many') {
+    alerts.push({ type: 'warn', icon: '⚠️', title: '多重申込の可能性があります', text: '短期間の複数申込は審査で慎重に見られる場合があります。少し期間を空けるのも一つの方法です。申し込みは1〜2社に絞ることをおすすめします。' });
+  } else if (a.multi_apply === 'few') {
+    alerts.push({ type: 'info', icon: '💡', title: '申込件数にご注意ください', text: '1〜2件の申込履歴があります。短期間の複数申込は信用情報に記録されます。今後は1社ずつ慎重に申し込みましょう。' });
+  }
+
+  // 審査主体バッティング
+  if (a.rejection === 'yes') {
+    alerts.push({ type: 'warn', icon: '🔍', title: '以前の審査落ち履歴があります', text: '以前と同系統の審査主体が含まれる場合、通過率が下がる可能性があります。別系統のカードも比較検討してみましょう。今回の診断結果では、なるべく別系統のカードを優先して提案します。' });
+  }
+
+  // 年収属性ロジック
+  if (a.income === 'high' && (a.borrowing === 'some' || a.borrowing === 'near_limit')) {
+    alerts.push({ type: 'info', icon: '💡', title: '銀行法系カードも選択肢になります', text: '年収や勤務状況を重視する銀行法系の審査が選択肢になる場合があります。借入状況の整理もあわせて検討しましょう。' });
+  }
+
+  // C枠注意
+  if (a.cashing === 'yes' && a.borrowing !== 'none') {
+    alerts.push({ type: 'info', icon: '💡', title: 'キャッシング枠は総量規制の対象です', text: 'クレジットカードのキャッシング枠は総量規制の対象です。不要な場合は0円設定も検討しましょう。ショッピング枠（S枠）は総量規制の対象外です。' });
+  }
+
+  // 支払い遅延
+  if (a.delay === 'current') {
+    alerts.push({ type: 'danger', icon: '🚨', title: '現在の支払い遅延が審査に影響する可能性があります', text: '現在進行中の支払い遅延は、信用情報に記録され審査に大きく影響します。まず現在の支払いを完了させることを優先しましょう。その後、デポジット型カードなどでクレヒスを回復させる方法もあります。' });
+  } else if (a.delay === 'past') {
+    alerts.push({ type: 'warn', icon: '⚠️', title: '過去の支払い遅延履歴について', text: '過去の支払い遅延は信用情報に一定期間記録されます（完済後5年程度）。審査が通りにくい場合は、デポジット型カードで実績を積む方法もあります。' });
+  }
+
+  // BNPL依存
+  if (a.bnpl === 'multiple') {
+    alerts.push({ type: 'info', icon: '💡', title: '後払いサービスの分散利用について', text: 'ショッピング枠中心のカードや、後払い系サービスの整理も検討してみましょう。複数の後払いサービスの利用は、信用情報への影響が少ない場合もありますが、管理が複雑になります。' });
+  }
+
+  // 初心者向け
+  if (a.current_cards === 'none') {
+    alerts.push({ type: 'success', icon: '✅', title: '初めてのクレジットカード作成ですね', text: 'まずは年会費無料・一般ランクカードから始めるのがおすすめです。利用実績を積んでからゴールドカードへのアップグレードを検討しましょう。' });
+  }
+
+  // デポジット型提案
+  if (a.rejection === 'yes' || a.delay === 'current' || a.delay === 'past' || a.purpose === 'anxious') {
+    alerts.push({ type: 'info', icon: '🛡', title: 'デポジット型カードという選択肢', text: '保証金（デポジット）を預けることで作りやすいNexus Card（デポジット型）という選択肢があります。クレヒスを積み上げる最初の1枚として検討してみましょう。' });
+  }
+
+  return alerts;
+}
+
+function pickLoanCard(a) {
+  // 審査不安・過去落ち → セントラル（柔軟な独自審査）
+  if (a.rejection === 'yes' || a.delay === 'current' || a.delay === 'past') return 'central';
+  // 在籍確認避けたい → アロー
+  if (a.employment === 'parttime' || a.employment === 'freelance') return 'arrow';
+  // デフォルト → プロミス
+  return 'promise';
+}
+
+function isLoanMode(a) {
+  return a.purpose === 'loan' || a.priority === 'loan_instant';
+}
+
+function pickCard(a) {
+  // 審査不安・審査落ちあり → デポジット型優先
+  if (a.purpose === 'anxious' || (a.rejection === 'yes' && a.delay !== 'none')) return 'nexus';
+  // 旅行・海外 → エポス
+  if (a.purpose === 'travel' || a.priority === 'travel') return 'epos';
+  // コンビニ利用 → 三井住友NL
+  if (a.usage === 'convenience' && a.rejection === 'none') return 'smbc_nl';
+  // 無印・ロフト → 用途別
+  if (a.usage === 'muji_loft') return a.priority === 'free' ? 'muji' : 'loft';
+  // 高還元重視 → リクルート
+  if (a.priority === 'cashback' || a.usage === 'amazon') return 'recruit';
+  // 楽天 → リクルート（提携なし）
+  if (a.usage === 'rakuten') return 'recruit';
+  // 初心者・とにかく1枚 → エポス
+  if (a.current_cards === 'none' || a.purpose === 'first') return 'epos';
+  // デフォルト
+  return 'recruit';
+}
+
+function pickSubCards(a, mainKey) {
+  const subs = [];
+  const all = ['smbc_nl', 'recruit', 'epos', 'muji', 'loft'];
+  for (const key of all) {
+    if (key !== mainKey && subs.length < 2) subs.push(key);
+  }
+  return subs;
+}
+
+async function diagnose() {
+  const alerts = calcAlerts(answers);
+  const loanMode = isLoanMode(answers);
+  let mainKey, mainCard, isLoan = false;
+  if (loanMode) {
+    mainKey = pickLoanCard(answers);
+    mainCard = loanCards[mainKey];
+    isLoan = true;
+  } else {
+    mainKey = pickCard(answers);
+    mainCard = cards[mainKey];
+  }
+  const subKeys = pickSubCards(answers, mainKey);
+  const showNexus = mainKey !== 'nexus';
+
+  // Claude APIで理由文生成
+  const answerSummary = questions.map(q => {
+    const opt = q.options.find(o => o.value === answers[q.key]);
+    return `${q.category}：${opt ? opt.label : '未回答'}`;
+  }).join('、');
+
+  let reason = `${mainCard.name}はあなたの状況にぴったりの1枚です。`;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: 'あなたはクレジットカード審査サポートの専門アドバイザーです。ユーザーの回答をもとに、選ばれたカードが最適な理由を60〜90文字の日本語で、親しみやすく説明してください。断定的すぎず、「〜の方に向いています」「〜の場合におすすめです」のような表現を使ってください。説明文のみ返してください。',
+        messages: [{ role: 'user', content: `診断結果：${mainCard.name}。ユーザーの回答：${answerSummary}` }]
+      })
+    });
+    const data = await res.json();
+    if (data.content?.[0]?.text) reason = data.content[0].text;
+  } catch(e) {}
+
+  showResult(alerts, mainCard, mainKey, reason, subKeys, showNexus, isLoan);
+}
+
+function showResult(alerts, card, cardKey, reason, subKeys, showNexus, isLoan=false) {
+  // ① メインカード
+  const tagsHtml = card.tags.map(t => `<span class="rec-tag">${t}</span>`).join('');
+  document.getElementById('rec-area').innerHTML = `
+    <div style="font-size:13px;font-weight:700;color:var(--text-muted);margin-bottom:8px;">${isLoan ? "🏦 あなたにおすすめのカードローン" : "💳 あなたにおすすめのカード"}</div>
+    <div class="rec-main">
+      <div class="rec-header">${isLoan ? "⭐ おすすめカードローン" : "⭐ メインおすすめカード"}</div>
+      <div class="rec-body">
+        <div class="rec-name">${card.name}</div>
+        <div class="rec-tags">${tagsHtml}</div>
+        <img src="${card.img}" alt="${card.name}" class="rec-img">
+        <div class="rec-reason">${reason}</div>
+        <div class="spec-grid">
+          <div class="spec-item"><div class="spec-label">年会費</div><div class="spec-value">${card.annual}</div></div>
+          <div class="spec-item"><div class="spec-label">還元率</div><div class="spec-value">${card.rate}</div></div>
+          <div class="spec-item"><div class="spec-label">ポイント</div><div class="spec-value">${card.point}</div></div>
+          <div class="spec-item"><div class="spec-label">ブランド</div><div class="spec-value">${card.brand}</div></div>
+        </div>
+        <a href="${card.url}" class="btn-orange" target="_blank" rel="noopener">このカードに申し込む ›</a>
+      </div>
+    </div>`;
+
+  // ② サブカード
+  let subHtml;
+  if (isLoan) {
+    const loanSubs = Object.entries(loanCards).filter(([k]) => k !== cardKey).slice(0, 2);
+    subHtml = loanSubs.map(([key, c]) => `<div class="sub-card">
+      <div class="sub-card-name">${c.name}</div>
+      <div class="sub-card-desc">金利${c.rate}・${c.tags[0]}</div>
+      <a href="${c.url}" class="btn-outline" target="_blank" rel="noopener">${c.name}を詳しく見る ›</a>
+    </div>`).join('');
+  } else {
+  const subHtmlArr = subKeys.map(key => {
+    const c = cards[key];
+    return `<div class="sub-card">
+      <div class="sub-card-name">${c.name}</div>
+      <div class="sub-card-desc">年会費${c.annual}・還元率${c.rate}・${c.tags[0]}</div>
+      <a href="${c.url}" class="btn-outline" target="_blank" rel="noopener">${c.name}を見る ›</a>
+    </div>`;
+  }).join('');
+  subHtml = subHtmlArr;
+  }
+  document.getElementById('sub-area').innerHTML = `
+    <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:8px;margin-top:4px;">＼ こちらもおすすめ ／</div>
+    ${subHtml}`;
+
+  // ③ Nexus
+  if (showNexus && !isLoan) {
+    const n = cards['nexus'];
+    document.getElementById('nexus-area').innerHTML = `
+      <div class="nexus-box">
+        <div class="nexus-header">🔒 審査に不安がある方はこちらもチェック</div>
+        <div class="nexus-body">
+          <div class="nexus-name">${n.name}</div>
+          <img src="${n.img}" alt="${n.name}" style="width:90%;max-width:288px;margin:12px auto;border-radius:10px;display:block;">
+          <div class="nexus-desc">保証金（デポジット）を預けることで作りやすいカード。過去に審査NGになった方も申込可能です。クレヒスを積み上げる最初の1枚としても活用できます。</div>
+          <a href="${n.url}" class="btn-outline" target="_blank" rel="noopener">Nexus Cardを詳しく見る ›</a>
+        </div>
+      </div>`;
+  }
+
+  // ④ アドバイスエリア
+  const relevantAlerts = alerts.filter(a =>
+    ['総量規制', '多重申込', '審査落ち', '支払い遅延', 'キャッシング', '借入状況', 'デポジット', '後払い', '初めて'].some(kw => a.title.includes(kw))
+  );
+
+  let adviceBody = '';
+  if (relevantAlerts.length > 0) {
+    adviceBody = relevantAlerts.map((a, i) => `
+      <div style="margin-bottom:16px;">
+        <div style="font-size:13px;font-weight:700;color:var(--text-dark);margin-bottom:6px;">
+          <span style="background:var(--blue);color:#fff;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;margin-right:6px;">${i+1}</span>
+          ${a.title}
+        </div>
+        <div style="font-size:13px;color:var(--text-mid);line-height:1.8;padding-left:26px;">${a.text}</div>
+      </div>`).join('<div style="border-top:1px solid var(--blue-mid);margin:12px 0;"></div>');
+  } else {
+    adviceBody = `<div style="font-size:13px;color:var(--text-mid);line-height:1.8;">特に気になる点は見当たりませんでした。安心して申し込みを進めましょう。</div>`;
+  }
+
+  document.getElementById('alert-area').innerHTML = `
+    <div style="background:#fff;border-radius:var(--radius);padding:18px;box-shadow:0 2px 10px rgba(30,136,229,0.08);margin-top:16px;">
+      <div style="font-size:14px;font-weight:700;color:var(--text-dark);margin-bottom:14px;border-bottom:1px solid var(--blue-mid);padding-bottom:10px;">
+        📋 診断ありがとうございます
+      </div>
+      <div style="font-size:13px;color:var(--text-mid);line-height:1.8;margin-bottom:16px;">
+        回答いただいた内容から、${relevantAlerts.length > 0 ? relevantAlerts.length + 'つの観点でアドバイスさせていただきます。' : '特に問題は検出されませんでした。'}
+      </div>
+      ${adviceBody}
+      <div style="border-top:1px solid var(--blue-mid);margin-top:14px;padding-top:14px;font-size:12px;color:var(--text-muted);line-height:1.8;background:var(--blue-light);padding:12px;border-radius:8px;">
+        いかがでしたか？上記の観点からアドバイスさせていただきました。この診断の内容は100％ではないので、あくまで参考としてご活用ください。
+      </div>
+    </div>`;
+
+  showScreen('screen-result');
+}
+
+function retryDiagnosis() { startDiagnosis(); }
+</script>
+</body>
+</html>
